@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="MainBundle\Repository\categoryRepository")
  */
-class category
+class Category
 {
     /**
      * @var int
@@ -20,13 +20,6 @@ class category
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ID", type="integer", unique=true)
-     */
-    private $iD;
 
     /**
      * @var string

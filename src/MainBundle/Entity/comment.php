@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="comment")
  * @ORM\Entity(repositoryClass="MainBundle\Repository\commentRepository")
  */
-class comment
+class Comment
 {
     /**
      * @var int
@@ -20,13 +20,6 @@ class comment
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ID", type="integer", unique=true)
-     */
-    private $iD;
 
     /**
      * @var string

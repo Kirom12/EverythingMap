@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="MainBundle\Repository\tagRepository")
  */
-class tag
+class Tag
 {
     /**
      * @var int
@@ -20,13 +20,6 @@ class tag
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ID", type="string", length=255)
-     */
-    private $iD;
 
     /**
      * @var string

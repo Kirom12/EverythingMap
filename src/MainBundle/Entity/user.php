@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="MainBundle\Repository\UserRepository")
  */
-class user
+class User
 {
     /**
      * @var int
@@ -20,14 +20,6 @@ class user
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ID", type="integer", unique=true)
-     */
-    private $iD;
-
     /**
      * @var string
      *
