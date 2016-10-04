@@ -2,7 +2,10 @@
 
 namespace MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 
 /**
  * User
@@ -10,8 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="MainBundle\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
+    /**
+     * @ORM\ManyToMany(targetEntity="EverythingMap\MainBundle\Entity\Post")
+     */
+    private $likes;
+
     /**
      * @var int
      *
@@ -76,6 +84,10 @@ class User
      */
     private $salt;
 
+
+    public function __constructor($likes){
+        $this->likes = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -291,6 +303,41 @@ class User
     public function getSalt()
     {
         return $this->salt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLike()
+    {
+        return $this->likes;
+    }
+
+    public function addLike($like)
+    {
+        $this->likes[] = $like;
+        return $this;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->getPseudo();
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
 

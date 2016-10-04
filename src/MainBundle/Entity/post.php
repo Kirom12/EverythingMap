@@ -2,6 +2,7 @@
 
 namespace MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,21 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Post
 {
+    /**
+     * @ORM\OneToOne(targetEntity="EverythingMap\MainBundle\Entity\User")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EverythingMap\MainBundle\Entity\Category")
+     */
+    private $categories;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EverythingMap\MainBundle\Entity\Tag")
+     */
+    private $tags;
+
     /**
      * @var int
      *
@@ -63,7 +79,12 @@ class Post
      */
     private $content;
 
+    public function __constructor($categories, $tags){
+        $this->categories = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+    }
 
+    #region Accessors
     /**
      * Get id
      *
@@ -231,5 +252,51 @@ class Post
     {
         return $this->content;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param mixed $tags
+     */
+    public function addTags($tag)
+    {
+        $this->tags[] = $tag;
+        return $this;
+    }
+
+
+    public function getCategories(){
+        return $this->categories;
+    }
+
+    public function addCategories($category){
+        $this->categories[] = $category;
+        return $this;
+    }
+
+
+    #endregion
 }
 

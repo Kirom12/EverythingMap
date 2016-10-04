@@ -13,6 +13,18 @@ use Doctrine\ORM\Mapping as ORM;
 class Comment
 {
     /**
+     * @ORM\ManyToOne(targetEntity="EverythingMap\MainBundle\Entity\User", cascade={"persist"})
+     */
+    private $user;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="EverythingMap\MainBundle\Entity\Post", cascade={"persist"})
+     */
+    private $post;
+
+
+    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -20,6 +32,7 @@ class Comment
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
 
     /**
      * @var string
@@ -107,5 +120,38 @@ class Comment
     {
         return $this->creationDate;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+
+    /**
+     * @param mixed $post
+     */
+    public function setPost($post)
+    {
+        $this->post = $post;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
 }
 
