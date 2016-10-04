@@ -74,9 +74,9 @@ class User implements UserInterface
     /**
      * @var bool
      *
-     * @ORM\Column(name="valid", type="boolean", options={"default" : 0})
+     * @ORM\Column(name="valid", type="boolean", options={"default" : false})
      */
-    private $valid;
+    private $valid = 0;
 
     /**
      * @var string
