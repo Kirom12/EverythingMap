@@ -61,21 +61,21 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="caption", type="string", length=255)
+     * @ORM\Column(name="caption", type="string", length=255,  nullable=true)
      */
     private $caption;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="link", type="string", length=255)
+     * @ORM\Column(name="link", type="string", length=255,  nullable=true)
      */
     private $link;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="string", length=255)
+     * @ORM\Column(name="content", type="string", length=255,  nullable=true)
      */
     private $content;
 
