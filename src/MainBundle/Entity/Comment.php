@@ -13,13 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
 class Comment
 {
     /**
-     * @ORM\ManyToOne(targetEntity="EverythingMap\MainBundle\Entity\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="MainBundle\Entity\User", cascade={"persist"})
      */
     private $user;
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="EverythingMap\MainBundle\Entity\Post", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="MainBundle\Entity\Post", cascade={"persist"})
      */
     private $post;
 

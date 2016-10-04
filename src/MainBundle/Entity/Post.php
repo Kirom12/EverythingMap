@@ -14,17 +14,17 @@ use Doctrine\ORM\Mapping as ORM;
 class Post
 {
     /**
-     * @ORM\OneToOne(targetEntity="EverythingMap\MainBundle\Entity\User")
+     * @ORM\OneToOne(targetEntity="MainBundle\Entity\User")
      */
     private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EverythingMap\MainBundle\Entity\Category")
+     * @ORM\ManyToMany(targetEntity="MainBundle\Entity\Category")
      */
     private $categories;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EverythingMap\MainBundle\Entity\Tag")
+     * @ORM\ManyToMany(targetEntity="MainBundle\Entity\Tag")
      */
     private $tags;
 

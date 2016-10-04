@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
     /**
-     * @ORM\ManyToMany(targetEntity="EverythingMap\MainBundle\Entity\Post")
+     * @ORM\ManyToMany(targetEntity="MainBundle\Entity\Post")
      */
     private $likes;
 
