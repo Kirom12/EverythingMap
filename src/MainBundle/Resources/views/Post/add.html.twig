@@ -1,5 +1,71 @@
 {% extends ('::base.html.twig')  %}
 {% block body %}
-    <p>post/add</p>
+
+    <h2>Add Post</h2>
+
+    {{ form_start(form, {'attr':{'class':'form-horizontal'}}) }}
+    <div class="form-group">
+        {{ form_label(form.title)}}
+
+        <div class="col-lg-10">
+            {{ form_widget(form.title)}}
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        {{  form_label(form.caption)}}
+
+        <div class="col-lg-10">
+            {{ form_widget(form.caption)}}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{  form_label(form.link)}}
+
+        <div class="col-lg-10">
+            {{ form_widget(form.link)}}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{  form_label(form.content)}}
+
+        <div class="col-lg-10">
+            {{ form_widget(form.content)}}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{  form_label(form.type)}}
+
+        <div class="col-lg-10">
+            {{ form_widget(form.type)}}
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        {{  form_label(form.categories)}}
+
+        <div class="col-lg-10">
+            {{ form_widget(form.categories)}}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{  form_label(form.tags)}}
+
+        <div class="col-lg-10">
+            {{ form_widget(form.tags)}}
+        </div>
+    </div>
+
+
+
+
+    {{ form_end(form) }}
+
 {% endblock %}
 
