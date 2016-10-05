@@ -14,7 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Post
 {
     /**
-     * @ORM\OneToOne(targetEntity="MainBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="MainBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
@@ -61,23 +62,30 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="caption", type="string", length=255)
+     * @ORM\Column(name="caption", type="string", length=255,  nullable=true)
      */
     private $caption;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="link", type="string", length=255)
+     * @ORM\Column(name="link", type="string", length=255,  nullable=true)
      */
     private $link;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="string", length=255)
+     * @ORM\Column(name="content", type="text",  nullable=true)
      */
     private $content;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
 
     public function __constructor($categories, $tags){
         $this->categories = new ArrayCollection();
@@ -294,6 +302,22 @@ class Post
     public function addCategories($category){
         $this->categories[] = $category;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 
 

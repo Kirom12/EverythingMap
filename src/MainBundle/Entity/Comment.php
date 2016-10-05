@@ -14,12 +14,14 @@ class Comment
 {
     /**
      * @ORM\ManyToOne(targetEntity="MainBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
 
     /**
      * @ORM\ManyToOne(targetEntity="MainBundle\Entity\Post", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $post;
 

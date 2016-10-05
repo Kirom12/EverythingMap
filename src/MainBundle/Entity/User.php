@@ -28,10 +28,11 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="pseudo", type="string", length=255, nullable=true)
+     * @ORM\Column(name="pseudo", type="string", length=255)
      */
     private $pseudo;
 
@@ -45,14 +46,14 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="last_name", type="string", length=255)
+     * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
      */
     private $lastName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="first_name", type="string", length=255)
+     * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
      */
     private $firstName;
 
@@ -73,9 +74,9 @@ class User implements UserInterface
     /**
      * @var bool
      *
-     * @ORM\Column(name="valid", type="boolean")
+     * @ORM\Column(name="valid", type="boolean", options={"default" : false})
      */
-    private $valid;
+    private $valid = 0;
 
     /**
      * @var string

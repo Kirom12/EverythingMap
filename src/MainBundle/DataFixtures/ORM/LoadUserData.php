@@ -3,10 +3,12 @@
 namespace MainBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use MainBundle\Entity\User;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 
-class LoadUserData implements FixtureInterface
+class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
 {
 
     /**
@@ -16,6 +18,31 @@ class LoadUserData implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        // TODO: Implement load() method.
+        //USERS
+        $user = new User();
+        $user->setPseudo('admin');
+        $user->setPassword('admin');
+        $user->setMail('admin@admin');
+        $user->setSalt(uniqid());
+        $user->addRoles('ROLE_ADMIN');
+        $manager->persist($user);
+
+        $this->addReference('admin', $user);
+
+        $user = new User();
+        $user->setPseudo('user1');
+        $user->setPassword('user1');
+        $user->setMail('user1@user');
+        $user->setSalt(uniqid());
+        $user->addRoles('ROLE_USER');
+        $manager->persist($user);
+
+        $this->addReference('user1', $user);
+
+        $manager->flush();
+    }
+
+    public function getOrder() {
+        return 0;
     }
 }
