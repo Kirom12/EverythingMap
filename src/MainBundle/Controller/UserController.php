@@ -3,6 +3,7 @@
 namespace MainBundle\Controller;
 
 use MainBundle\Entity\User;
+use MainBundle\Form\EditProfileType;
 use MainBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,9 +30,13 @@ class UserController extends Controller
 
     }
 
-    public function profileAction()
+    public function profileAction(Request $request)
     {
         $user = $this->getUser();
+
+        $imageForm = $this->createForm(EditProfileType::class, $user);
+
+        $imageForm->handleRequest($request);
 
         return $this->render('MainBundle:User:profile.html.twig');
     }
