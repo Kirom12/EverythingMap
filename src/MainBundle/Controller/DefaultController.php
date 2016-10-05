@@ -11,8 +11,13 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('MainBundle:Default:index.html.twig');
+        $posts = $this->getDoctrine()->getRepository('MainBundle:Post')->findAll();
+
+        return $this->render('MainBundle:Default:index.html.twig', array(
+        'compteur'=>count($posts),
+        'posts'=>$posts));
     }
+
 
     public function indexUserAction()
     {
@@ -23,4 +28,5 @@ class DefaultController extends Controller
     {
         return $this->render('MainBundle:Admin:index.html.twig');
     }
+
 }

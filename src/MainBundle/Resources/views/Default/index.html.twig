@@ -1,6 +1,33 @@
 {% extends ('::base.html.twig')  %}
 {% block body %}
 
-   <p>Index</p>
+    {% for post in posts %}
 
+        <h4>{{ post.title }}</h4>
+        <p>{{ post.user.pseudo }}</p>
+        <p>{{ post.creationDate|date("m/d/Y") }}</p>
+
+        {% if post.type == "video" %}
+            <p>{{ post.caption }}</p>
+            <p>{{ post.link }}</p>
+
+        {% elseif post.type == "link" %}
+            <p>{{ post.caption }}</p>
+            <p>{{ post.link }}</p>
+
+        {% elseif post.type == "text" %}
+            <p>{{  post.content }}</p>
+
+        {% elseif post.type == "picture" %}
+            <p>{{ post.caption }}</p>
+            <p>{{ post.link }}</p>
+            <p>{{ post.name }}</p>
+
+
+        {% else %}
+
+
+        {% endif %}
+
+    {% endfor %}
 {% endblock %}

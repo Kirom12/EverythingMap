@@ -34,6 +34,6 @@ class PostController extends Controller
             'form'=>$form->createView(),
         ));
 
-
     }
+
 }

@@ -85,7 +85,7 @@ class Post
      *
      * @ORM\Column(name="type", type="string", length=255)
      */
-    private $type;
+    private $type = array();
 
     public function __constructor($categories, $tags){
         $this->categories = new ArrayCollection();

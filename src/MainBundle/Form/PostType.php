@@ -4,6 +4,7 @@ namespace MainBundle\Form;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,6 +20,13 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('type', ChoiceType::class, array(
+                'choices'  => array(
+                    'Maybe' => null,
+                    'Yes' => true,
+                    'No' => false,
+                ),
+            ))
             ->add('title', TextType::class,
                 array(
                     'label'=> 'Title',

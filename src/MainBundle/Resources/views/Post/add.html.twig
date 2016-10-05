@@ -7,6 +7,15 @@
     {{ form_start(form,
 
     {'attr':{'class':'form-horizontal'}}) }}
+
+    <div class="form-group">
+        {{ form_label(form.type)}}
+
+        <div class="col-lg-10">
+            {{ form_widget(form.type)}}
+        </div>
+    </div>
+
     <div class="form-group">
         {{ form_label(form.title)}}
 
@@ -37,14 +46,6 @@
 
         <div class="col-lg-10">
             {{ form_widget(form.content)}}
-        </div>
-    </div>
-
-    <div class="form-group">
-        {{  form_label(form.type)}}
-
-        <div class="col-lg-10">
-            {{ form_widget(form.type)}}
         </div>
     </div>
 
