@@ -8,7 +8,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * User
  *
@@ -88,6 +87,7 @@ class User implements UserInterface
      */
     private $imageUrl;
 
+    private $imageFile;
 
     public function __constructor($likes){
         $this->likes = new ArrayCollection();
@@ -350,6 +350,22 @@ class User implements UserInterface
     public function setImageUrl($imageUrl)
     {
         $this->imageUrl = $imageUrl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param mixed $imageFile
+     */
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
     }
 
     /**

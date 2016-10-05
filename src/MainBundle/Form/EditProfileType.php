@@ -4,6 +4,8 @@ namespace MainBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,21 +14,30 @@ class EditProfileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('file', FileType::class, array(
+            ->add('imageFile', FileType::class, array(
                 'label' => 'Image',
+                'required'=> false,
                 'label_attr' => array(
-                    'class' => 'col-lg-2 control-label'
+                    'class' => 'control-label'
                 )
             ))
-            ->add('url', TextType::class, array(
+            ->add('imageUrl', TextType::class, array(
                 'label' => 'Url',
+                'required'=> false,
+                'data' => null,
                 'label_attr' => array(
-                    'class' => 'col-lg-2 control-label'
+                    'class' => 'control-label'
                 ),
                 'attr' => array(
-                    'class' => 'form-control'
+                    'class' => 'form-control input-sm',
+                    'placeholder' => 'Url'
                 )
             ))
+            ->add('Save', SubmitType::class, array(
+                'attr' => array(
+                    'class' => 'btn btn-success pull-right'
+                )
+            ));
         ;
     }
 

@@ -7,7 +7,7 @@ use MainBundle\Form\EditProfileType;
 use MainBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserController extends Controller
 {
@@ -37,12 +37,30 @@ class UserController extends Controller
         $imageForm = $this->createForm(EditProfileType::class, $user);
 
         $imageForm->handleRequest($request);
+        if($imageForm->isSubmitted() && $imageForm->isValid()){
+            // http://symfony.com/doc/current/controller/upload_file.html
+            // $file stores the uploaded PDF file
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $user->getImageFile();
 
-        return $this->render('MainBundle:User:profile.html.twig');
+            $url = $user->getImageUrl();
+
+            if (!empty($file)) {
+                $imageName = uniqid();
+                $file->move('library/profile_image/'.$user->getId().'/', $imageName);
+                $user->setImageUrl('library/profile_image/'.$imageName.'.jpg');
+
+            }
+        }
+
+        return $this->render('MainBundle:User:profile.html.twig', array(
+            'imageForm' => $imageForm->createView()
+        ));
     }
 
     public function registerAction(Request $request)
     {
+        //http://symfony.com/doc/current/doctrine/registration_form.html
         $user = new User();
 
         $form = $this->createForm(UserType::class, $user);
@@ -60,7 +78,7 @@ class UserController extends Controller
         }
 
         return $this->render('MainBundle:User:register.html.twig', array(
-            'form'=>$form->createView(),
+            'form' => $form->createView()
         ));
     }
 }
