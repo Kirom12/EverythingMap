@@ -17,8 +17,10 @@
 
             <ul class="nav navbar-nav navbar-right">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li><a href="{{ path('main_user_profile') }}">Profile</a></li>
                     <li><a href="{{ path('logout') }}">Logout</a></li>
                 {% else %}
+                    <li><a href="{{ path('main_register') }}">Register</a></li>
                     <li><a href="{{ path('login') }}">Login</a></li>
                 {% endif %}
             </ul>

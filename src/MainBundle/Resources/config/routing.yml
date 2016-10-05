@@ -9,19 +9,24 @@ main_post_add:
     defaults:
         _controller: MainBundle:Post:add
 
+main_register:
+    path : /register
+    defaults:
+        _controller: MainBundle:User:register
+
 #User routes
 main_user:
     path: /user
     defaults:
         _controller: MainBundle:Default:indexUser
 
+main_user_profile:
+    path: /user/profile
+    defaults:
+        _controller: MainBundle:User:profile
+
 #Admin routes
 main_admin:
     path: /admin
     defaults:
         _controller: MainBundle:Default:indexAdmin
-
-main_register:
-    path : /register
-    defaults:
-        _controller: MainBundle:User:register
