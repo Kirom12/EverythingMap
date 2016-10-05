@@ -102,6 +102,13 @@ class User implements UserInterface
      */
     private $imageUrl;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_date", type="date")
+     */
+    private $createdDate;
+
     private $imageFile;
 
     public function __constructor($likes){
@@ -381,6 +388,22 @@ class User implements UserInterface
     public function setImageFile($imageFile)
     {
         $this->imageFile = $imageFile;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedDate()
+    {
+        return $this->createdDate;
+    }
+
+    /**
+     * @param \DateTime $createdDate
+     */
+    public function setCreatedDate($createdDate)
+    {
+        $this->createdDate = $createdDate;
     }
 
     /**

@@ -27,6 +27,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         $user->setMail('admin@admin');
         $user->setSalt(uniqid());
         $user->addRoles('ROLE_ADMIN');
+        $user->setCreatedDate(new \DateTime());
         $manager->persist($user);
 
         $this->addReference('admin', $user);
@@ -37,6 +38,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         $user->setMail('user1@user');
         $user->setSalt(uniqid());
         $user->addRoles('ROLE_USER');
+        $user->setCreatedDate(new \DateTime());
         $manager->persist($user);
 
         $this->addReference('user1', $user);

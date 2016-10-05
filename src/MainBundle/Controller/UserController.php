@@ -71,6 +71,8 @@ class UserController extends Controller
 
             $id = uniqid();
             $user = $user->setSalt($id);
+            $user->addRoles('ROLE_USER');
+            $user->setCreatedDate(new \DateTime());
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
