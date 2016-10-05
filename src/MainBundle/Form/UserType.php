@@ -41,22 +41,23 @@ class UserType extends AbstractType
                    )),
                     'required' => false,
                     'first_options'  => array(
-                    'label' => 'Password *',
-                    'label_attr'=>array(
-                        'class'=>'col-lg-2 control-label'
+                        'label' => 'Password *',
+                        'error_bubbling' => true,
+                        'label_attr'=>array(
+                            'class'=>'col-lg-2 control-label'
+                            ),
+                        'attr'=>array(
+                            'class'=>'form-control'
+                            )
                         ),
-                    'attr'=>array(
-                        'class'=>'form-control'
-                        )
-                    ),
                     'second_options' => array(
-                    'label' => 'Repeat Password *',
-                    'label_attr'=>array(
-                        'class'=>'col-lg-2 control-label'
-                        ),
-                    'attr'=>array(
-                        'class'=>'form-control'
-                        )
+                        'label' => 'Repeat Password *',
+                        'label_attr'=>array(
+                            'class'=>'col-lg-2 control-label'
+                            ),
+                        'attr'=>array(
+                            'class'=>'form-control'
+                            )
                     ),
                 ))
             ->add('firstName', TextType::class,

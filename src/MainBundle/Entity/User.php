@@ -8,13 +8,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+//http://symfony.com/doc/current/validation.html
+
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="MainBundle\Repository\UserRepository")
+ * @UniqueEntity("pseudo", message="Pseudo already exist")
+ * @UniqueEntity("mail", message="Email already exist")
  */
-
 class User implements UserInterface
 {
     /**
@@ -32,12 +35,18 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min = 3, max = 20, minMessage = "Pseudo too short", maxMessage = "Pseudo too long")
+     *
      * @var string
      * @ORM\Column(name="pseudo", type="string", length=255)
      */
     private $pseudo;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min = 8, max = 30, minMessage = "Password too short", maxMessage = "Password too long")
+     *
      * @var string
      * @ORM\Column(name="password", type="string", length=255)
      */
@@ -56,6 +65,12 @@ class User implements UserInterface
     private $firstName;
 
     /**
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = false
+     * )
+     * @Assert\NotBlank()
+     *
      * @var string
      * @ORM\Column(name="mail", type="string", length=255)
      */

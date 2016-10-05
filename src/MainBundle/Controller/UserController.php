@@ -27,7 +27,6 @@ class UserController extends Controller
             'last_username' => $lastUsername,
             'error' => $error,
         ));
-
     }
 
     public function profileAction(Request $request)
@@ -66,7 +65,7 @@ class UserController extends Controller
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
-        if($form->isValid()){
+        if($form->isSubmitted() && $form->isValid()){
             $validator = $this->get("validator");
             $errors = $validator->validate($user);
 
@@ -75,6 +74,12 @@ class UserController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
+            // Session management: https://symfony.com/doc/current/components/http_foundation/sessions.html
+            // Flash message: https://symfony.com/doc/current/controller.html#flash-messages
+            $this->addFlash('register', 'Inscription confirmed. Now log in bitch!');
+
+            return $this->redirectToRoute('login');
         }
 
         return $this->render('MainBundle:User:register.html.twig', array(
