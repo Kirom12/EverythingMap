@@ -1,15 +1,24 @@
 {% extends('::base.html.twig') %}
 {% block body %}
     <h2>Profile</h2>
-    <div class="col-md-8">
+    <div class="col-md-9">
         <p><strong>Username : </strong>{{ app.user.username }}</p>
         <p><strong>Email : </strong>{{ app.user.mail }}</p>
         <p><strong>First name : </strong>{{ app.user.firstname }}</p>
         <p><strong>Last name : </strong>{{ app.user.lastname }}</p>
     </div>
-    <div class="col-md-4">
-        <img src="{{ asset(app.user.imageurl) }}" alt="" class="img-thumbnail">
-        <p><strong>Modify image :</strong></p>
+    <div class="col-md-3">
+        <img src="{{ asset(app.user.imageurl) }}" alt="" class="img-thumbnail center-block">
+        <h4>Modify image :</h4>
+        {{ form_start(imageForm, {'attr':{'class':'form-horizontal'}}) }}
+        <div class="form-group">
+            {{ form_widget(imageForm.imageFile)}}
+        </div>
+        <p class="text-center"><strong>OR</strong></p>
+        <div class="form-group">
+            {{ form_widget(imageForm.imageUrl)}}
+        </div>
+        {{ form_end(imageForm) }}
     </div>
 {% endblock %}
 

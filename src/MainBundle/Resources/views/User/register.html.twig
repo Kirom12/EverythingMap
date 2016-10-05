@@ -4,11 +4,16 @@
     <h2>Register</h2>
 
     {{ form_start(form, {'attr':{'class':'form-horizontal'}}) }}
+    {{ form_errors(form) }}
+
     <div class="form-group">
         {{  form_label(form.pseudo)}}
 
         <div class="col-lg-10">
             {{ form_widget(form.pseudo)}}
+            {% if form.pseudo.vars.errors|length %}
+                <div class="alert alert-danger">{{ form_errors(form.pseudo) }}</div>
+            {% endif %}
         </div>
     </div>
 
@@ -17,6 +22,9 @@
 
         <div class="col-lg-10">
             {{ form_widget(form.password.first)}}
+            {% if form.password.vars.errors|length %}
+                <div class="alert alert-danger">{{ form_errors(form.password) }}</div>
+            {% endif %}
         </div>
     </div>
 
@@ -49,6 +57,9 @@
 
         <div class="col-lg-10">
             {{ form_widget(form.mail)}}
+            {% if form.mail.vars.errors|length %}
+                <div class="alert alert-danger">{{ form_errors(form.mail) }}</div>
+            {% endif %}
         </div>
     </div>
 

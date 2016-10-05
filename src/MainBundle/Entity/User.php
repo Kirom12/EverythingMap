@@ -8,14 +8,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+//http://symfony.com/doc/current/validation.html
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="MainBundle\Repository\UserRepository")
+ * @UniqueEntity("pseudo", message="Pseudo already exist")
+ * @UniqueEntity("mail", message="Email already exist")
  */
-
 class User implements UserInterface
 {
     /**
@@ -33,12 +35,18 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min = 3, max = 20, minMessage = "Pseudo too short", maxMessage = "Pseudo too long")
+     *
      * @var string
      * @ORM\Column(name="pseudo", type="string", length=255)
      */
     private $pseudo;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min = 8, max = 30, minMessage = "Password too short", maxMessage = "Password too long")
+     *
      * @var string
      * @ORM\Column(name="password", type="string", length=255)
      */
@@ -57,6 +65,12 @@ class User implements UserInterface
     private $firstName;
 
     /**
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = false
+     * )
+     * @Assert\NotBlank()
+     *
      * @var string
      * @ORM\Column(name="mail", type="string", length=255)
      */
@@ -88,6 +102,14 @@ class User implements UserInterface
      */
     private $imageUrl;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_date", type="date")
+     */
+    private $createdDate;
+
+    private $imageFile;
 
     public function __constructor($likes){
         $this->likes = new ArrayCollection();
@@ -350,6 +372,38 @@ class User implements UserInterface
     public function setImageUrl($imageUrl)
     {
         $this->imageUrl = $imageUrl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param mixed $imageFile
+     */
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedDate()
+    {
+        return $this->createdDate;
+    }
+
+    /**
+     * @param \DateTime $createdDate
+     */
+    public function setCreatedDate($createdDate)
+    {
+        $this->createdDate = $createdDate;
     }
 
     /**
