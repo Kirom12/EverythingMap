@@ -12,3 +12,9 @@ main_post:
     path : /post
     defaults:
         _controller: MainBundle:Post:index
+
+
+main_register:
+    path : /register
+    defaults:
+        _controller: MainBundle:User:register

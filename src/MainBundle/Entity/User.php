@@ -5,6 +5,8 @@ namespace MainBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -13,6 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="MainBundle\Repository\UserRepository")
  */
+
 class User implements UserInterface
 {
     /**
@@ -31,35 +34,30 @@ class User implements UserInterface
 
     /**
      * @var string
-     *
      * @ORM\Column(name="pseudo", type="string", length=255)
      */
     private $pseudo;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
      */
     private $lastName;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
      */
     private $firstName;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="mail", type="string", length=255)
      */
     private $mail;
@@ -80,7 +78,6 @@ class User implements UserInterface
 
     /**
      * @var string
-     *
      * @ORM\Column(name="salt", type="string", length=255)
      */
     private $salt;
