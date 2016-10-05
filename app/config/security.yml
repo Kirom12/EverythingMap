@@ -9,14 +9,14 @@ security:
                 users:
                     user:
                         password: user
-                        roles: ['ROLES_USER']
+                        roles: ['ROLE_USER']
                     admin:
                         password: admin
                         roles: ['ROLE_ADMIN']
         main:
             entity:
-                class: EverythingMap\MainBundle\Entity\User
-                property: username
+                class: MainBundle\Entity\User
+                property: pseudo
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -46,7 +46,8 @@ security:
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/user, roles: ROLE_USER }
 
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
-        EverythingMap\MainBundle\Entity\User: plaintext
+        MainBundle\Entity\User: plaintext

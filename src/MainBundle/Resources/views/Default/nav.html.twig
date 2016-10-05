@@ -12,8 +12,15 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Link</a></li>
+                <li><a href="{{ path('main_post_add') }}">Add a post</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li><a href="{{ path('logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ path('login') }}">Login</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>

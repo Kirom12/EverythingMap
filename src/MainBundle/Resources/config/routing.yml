@@ -1,14 +1,22 @@
+#Anonym routes
 main_homepage:
     path: /
     defaults:
         _controller: MainBundle:Default:index
 
-main_user:
-    path : /user
+main_post_add:
+    path: /post/add
     defaults:
-        _controller: MainBundle:User:index
+        _controller: MainBundle:Post:add
 
-main_post:
-    path : /post
+#User routes
+main_user:
+    path: /user
     defaults:
-        _controller: MainBundle:Post:index
+        _controller: MainBundle:Default:indexUser
+
+#Admin routes
+main_admin:
+    path: /admin
+    defaults:
+        _controller: MainBundle:Default:indexAdmin

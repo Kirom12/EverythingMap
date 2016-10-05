@@ -10,4 +10,14 @@ class DefaultController extends Controller
     {
         return $this->render('MainBundle:Default:index.html.twig');
     }
+
+    public function indexUserAction()
+    {
+        return $this->render('MainBundle:User:index.html.twig');
+    }
+
+    public function indexAdminAction()
+    {
+        return $this->render('MainBundle:Admin:index.html.twig');
+    }
 }

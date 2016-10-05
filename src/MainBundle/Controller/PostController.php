@@ -10,4 +10,9 @@ class PostController extends Controller
     {
         return $this->render('MainBundle:Post:index.html.twig');
     }
+
+    public function addAction()
+    {
+        return $this->render('MainBundle:Post:add.html.twig');
+    }
 }
