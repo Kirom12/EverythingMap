@@ -15,13 +15,15 @@ main_user:
     defaults:
         _controller: MainBundle:Default:indexUser
 
+main_register:
+    path : /register
+    defaults:
+        _controller: MainBundle:User:register
+
 #Admin routes
 main_admin:
     path: /admin
     defaults:
         _controller: MainBundle:Default:indexAdmin
 
-main_register:
-    path : /register
-    defaults:
-        _controller: MainBundle:User:register
+

@@ -2,16 +2,15 @@
 
 namespace MainBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class PostType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -20,9 +19,9 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('pseudo', TextType::class,
+            ->add('title', TextType::class,
                 array(
-                    'label'=> 'Username *',
+                    'label'=> 'Title',
                     'required'=> false,
                     'label_attr'=>array(
                         'class'=>'col-lg-2 control-label'
@@ -31,37 +30,10 @@ class UserType extends AbstractType
                         'class'=>'form-control'
                     )
                 ))
-            ->add('password', RepeatedType::class,
+
+            ->add('caption', TextType::class,
                 array(
-                    'type' => PasswordType::class,
-                    'invalid_message' => 'The password fields must match.',
-                    'options' => array(
-                    'attr' => array(
-                       'class' => 'password-field'
-                   )),
-                    'required' => false,
-                    'first_options'  => array(
-                    'label' => 'Password *',
-                    'label_attr'=>array(
-                        'class'=>'col-lg-2 control-label'
-                        ),
-                    'attr'=>array(
-                        'class'=>'form-control'
-                        )
-                    ),
-                    'second_options' => array(
-                    'label' => 'Repeat Password *',
-                    'label_attr'=>array(
-                        'class'=>'col-lg-2 control-label'
-                        ),
-                    'attr'=>array(
-                        'class'=>'form-control'
-                        )
-                    ),
-                ))
-            ->add('firstName', TextType::class,
-                array(
-                    'label'=> 'First name',
+                    'label'=> 'Caption',
                     'required'=> false,
                     'label_attr'=>array(
                         'class'=>'col-lg-2 control-label'
@@ -69,12 +41,10 @@ class UserType extends AbstractType
                     'attr'=>array(
                         'class'=>'form-control'
                     )
-
                 ))
-
-            ->add('lastName', TextType::class,
+            ->add('link', TextType::class,
                 array(
-                    'label'=> 'Last name',
+                    'label'=> 'Link',
                     'required'=> false,
                     'label_attr'=>array(
                         'class'=>'col-lg-2 control-label'
@@ -82,19 +52,52 @@ class UserType extends AbstractType
                     'attr'=>array(
                         'class'=>'form-control'
                     )
-
                 ))
-            ->add('mail', TextType::class, array(
-                'label'=> 'Mail *',
-                'required'=> false,
-                'label_attr'=>array(
-                    'class'=>'col-lg-2 control-label'
-                ),
-                'attr'=>array(
-                    'class'=>'form-control'
-                )
-
-            ))
+            ->add('content', TextareaType::class,
+                array(
+                    'label'=> 'Content',
+                    'required'=> false,
+                    'label_attr'=>array(
+                        'class'=>'col-lg-2 control-label'
+                    ),
+                    'attr'=>array(
+                        'class'=>'form-control'
+                    )
+                ))
+            ->add('type', TextType::class,
+                array(
+                    'label'=> 'Type',
+                    'required'=> false,
+                    'label_attr'=>array(
+                        'class'=>'col-lg-2 control-label'
+                    ),
+                    'attr'=>array(
+                        'class'=>'form-control'
+                    )
+                ))
+            ->add('categories', EntityType::class,
+                array(
+                    'label'=> 'Categories',
+                    'required'=> false,
+                    'label_attr'=>array(
+                        'class'=>'col-lg-2 control-label'
+                    ),
+                    'class' => 'MainBundle:Category',
+                    'attr'=>array(
+                        'class'=>'form-control'
+                    )
+                ))
+            ->add('tags', TextType::class,
+                array(
+                    'label'=> 'Tags',
+                    'required'=> false,
+                    'label_attr'=>array(
+                        'class'=>'col-lg-2 control-label'
+                    ),
+                    'attr'=>array(
+                        'class'=>'form-control'
+                    )
+                ))
 
             ->add('submit', SubmitType::class, array(
                 'attr' => array(
@@ -109,7 +112,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'MainBundle\Entity\User'
+            'data_class' => 'MainBundle\Entity\Post'
         ));
     }
 }
