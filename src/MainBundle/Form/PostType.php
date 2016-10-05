@@ -83,8 +83,9 @@ class PostType extends AbstractType
                         'class'=>'col-lg-2 control-label'
                     ),
                     'class' => 'MainBundle:Category',
+                    'choice_label'=> 'name',
                     'attr'=>array(
-                        'class'=>'form-control'
+                        'class'=>'form-control',
                     )
                 ))
             ->add('tags', TextType::class,
