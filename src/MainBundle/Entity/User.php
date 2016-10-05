@@ -82,6 +82,12 @@ class User implements UserInterface
      */
     private $salt;
 
+    /**
+     * @var string
+     * @ORM\Column(name="image_url", type="string", length=255, nullable=true)
+     */
+    private $imageUrl;
+
 
     public function __constructor($likes){
         $this->likes = new ArrayCollection();
@@ -325,6 +331,25 @@ class User implements UserInterface
     public function getUsername()
     {
         return $this->getPseudo();
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        if (is_null($this->imageUrl)) {
+            return "library/profile_image/default/default.png";
+        }
+        return $this->imageUrl;
+    }
+
+    /**
+     * @param string $imageUrl
+     */
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
     }
 
     /**
