@@ -5,6 +5,7 @@ namespace MainBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use MainBundle\Entity\Category;
 use MainBundle\Entity\Post;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 
@@ -20,6 +21,20 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
     {
         $admin = $this->getReference('admin');
         $user1 = $this->getReference('user1');
+
+        $category = new Category();
+        $category->setName("Cul");
+        $manager->persist($category);
+
+        $category = new Category();
+        $category->setName("Boobies");
+        $manager->persist($category);
+
+
+        $category = new Category();
+        $category->setName("Chatons");
+        $manager->persist($category);
+
 
         $post = new Post();
         $post->setType("video");

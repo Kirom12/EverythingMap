@@ -29,6 +29,13 @@ class UserController extends Controller
 
     }
 
+    public function profileAction()
+    {
+        $user = $this->getUser();
+
+        return $this->render('MainBundle:User:profile.html.twig');
+    }
+
     public function registerAction(Request $request)
     {
         $user = new User();
@@ -45,7 +52,6 @@ class UserController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
         }
 
         return $this->render('MainBundle:User:register.html.twig', array(
