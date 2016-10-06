@@ -62,8 +62,14 @@ class UserController extends Controller
         ));
     }
 
-    public function profileByIdAction()
+    public function profileByIdAction($id)
     {
+        $user = $this->getDoctrine()->getRepository("MainBundle:User")->find ($id);
+
+        return $this->render('MainBundle:User:userProfile.html.twig', array(
+            'user' =>$user
+
+        ));
 
     }
 
