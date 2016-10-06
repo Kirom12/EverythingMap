@@ -55,7 +55,7 @@ class Post
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="creation_date", type="date")
+     * @ORM\Column(name="creation_date", type="datetime")
      */
     private $creationDate;
 
@@ -80,12 +80,15 @@ class Post
      */
     private $content;
 
+    //@Assert\Choice({"text", "video", "picture", "link"})
+
     /**
+     *
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
      */
-    private $type = array();
+    private $type;
 
     public function __constructor($categories, $tags){
         $this->categories = new ArrayCollection();

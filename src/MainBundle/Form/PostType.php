@@ -26,6 +26,8 @@ class PostType extends AbstractType
                     'Yes' => true,
                     'No' => false,
                 ),
+                'choices_as_values' => true,
+                'choice_label' => 'displayName',
             ))
             ->add('title', TextType::class,
                 array(

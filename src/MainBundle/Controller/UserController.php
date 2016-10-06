@@ -3,7 +3,7 @@
 namespace MainBundle\Controller;
 
 use MainBundle\Entity\User;
-use MainBundle\Form\EditProfileType;
+use MainBundle\Form\EditProfileImageType;
 use MainBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         $user = $this->getUser();
 
-        $imageForm = $this->createForm(EditProfileType::class, $user);
+        $imageForm = $this->createForm(EditProfileImageType::class, $user);
 
         $imageForm->handleRequest($request);
         if($imageForm->isSubmitted() && $imageForm->isValid()){

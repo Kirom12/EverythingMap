@@ -14,11 +14,10 @@
         {{ include("MainBundle:Default:nav.html.twig") }}
         <div class="container">
             {% block body %}{% endblock %}
-            {% block javascripts %}{% endblock %}
         </div>
 
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('js/main.js') }}"></script>
+        {% block javascripts %}{% endblock %}
     </body>
 </html>
