@@ -41,9 +41,11 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="image_url", type="string", length=255, nullable=true)
      */
-    private $name;
+    private $imageUrl;
+
+    private $imageFile;
 
     /**
      * @var string
@@ -121,27 +123,35 @@ class Post
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return post
+     * @return string
      */
-    public function setName($name)
+    public function getImageUrl()
     {
-        $this->name = $name;
-
-        return $this;
+        return $this->imageUrl;
     }
 
     /**
-     * Get name
-     *
-     * @return string
+     * @param string $imageUrl
      */
-    public function getName()
+    public function setImageUrl($imageUrl)
     {
-        return $this->name;
+        $this->imageUrl = $imageUrl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param mixed $imageFile
+     */
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
     }
 
     /**
@@ -351,8 +361,6 @@ class Post
     {
         $this->category = $category;
     }
-
-
     #endregion
 }
 

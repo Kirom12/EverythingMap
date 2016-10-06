@@ -26,6 +26,7 @@ $(function(){
         $form.find("#group_caption").addClass("hidden");
         $form.find("#group_link").addClass("hidden");
         $form.find("#group_content").addClass("hidden");
+        $form.find("#upload_input").addClass("hidden");
 
 
         switch (value) {
@@ -36,6 +37,7 @@ $(function(){
             case 'picture':
                 $form.find("#group_caption").removeClass("hidden");
                 $form.find("#group_link").removeClass("hidden");
+                $form.find("#upload_input").removeClass("hidden");
                 break;
             case 'text':
                 $form.find("#group_content").removeClass("hidden");
