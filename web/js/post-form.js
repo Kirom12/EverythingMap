@@ -45,6 +45,12 @@ $(function(){
                 $form.find("#group_link").removeClass("hidden");
                 break;
             default:
+                $form.find("#group_title").addClass("hidden");
+                $form.find("#group_categories").addClass("hidden");
+                $form.find("#group_tags").addClass("hidden");
+                $form.find("#group_caption").addClass("hidden");
+                $form.find("#group_link").addClass("hidden");
+                $form.find("#group_content").addClass("hidden");
         }
     })
 });
