@@ -269,6 +269,10 @@ class Post
      */
     public function getUser()
     {
+        if (is_null($this->user)) {
+            $this->user = new User();
+            $this->user->setPseudo("Anonymous");
+        }
         return $this->user;
     }
 

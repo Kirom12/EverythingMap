@@ -13,8 +13,8 @@ class UserController extends Controller
 {
     public function loginAction()
     {
+        //Security: http://symfony.com/doc/current/security.html
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-
             return $this->redirectToRoute('main_homepage');
         }
 

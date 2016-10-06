@@ -28,6 +28,11 @@ class PostController extends Controller
 
             $post->setCreationDate(new \DateTime());
 
+            //Set user to post if user is authenticated
+            if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $post->setUser($this->getUser());
+            }
+
             //Save post in DB
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
