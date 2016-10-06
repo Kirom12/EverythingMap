@@ -43,7 +43,9 @@ class EditProfileImageType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-
+        $resolver->setDefaults(array(
+            'data_class' => 'MainBundle\Entity\User'
+        ));
     }
 
     public function getName()

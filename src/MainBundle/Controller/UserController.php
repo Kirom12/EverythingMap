@@ -29,6 +29,7 @@ class UserController extends Controller
         ));
     }
 
+
     public function profileAction(Request $request)
     {
         $user = $this->getUser();
@@ -36,17 +37,21 @@ class UserController extends Controller
         $imageForm = $this->createForm(EditProfileImageType::class, $user);
 
         $imageForm->handleRequest($request);
+
         if($imageForm->isSubmitted() && $imageForm->isValid()){
             // http://symfony.com/doc/current/controller/upload_file.html
             // $file stores the uploaded PDF file
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $user->getImageFile();
 
+            //dump($user);die;
+            //$file = $user->getImageFile();
+
+            //dump($file);
+            //die;
             $url = $user->getImageUrl();
 
             if (!empty($file)) {
                 $imageName = uniqid();
-                $file->move('library/profile_image/'.$user->getId().'/', $imageName);
+                $file->move('library/profile_image/', $imageName);
                 $user->setImageUrl('library/profile_image/'.$imageName.'.jpg');
 
             }
@@ -55,6 +60,11 @@ class UserController extends Controller
         return $this->render('MainBundle:User:profile.html.twig', array(
             'imageForm' => $imageForm->createView()
         ));
+    }
+
+    public function profileByIdAction()
+    {
+
     }
 
     public function registerAction(Request $request)

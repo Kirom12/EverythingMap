@@ -22,12 +22,18 @@ class PostType extends AbstractType
         $builder
             ->add('type', ChoiceType::class, array(
                 'choices'  => array(
-                    'Maybe' => null,
-                    'Yes' => true,
-                    'No' => false,
+                    '' => '',
+                    'Text' => 'test',
+                    'Picture' => 'picture',
+                    'Video' => 'video',
+                    'Link' => 'link'
                 ),
-                'choices_as_values' => true,
-                'choice_label' => 'displayName',
+                'label_attr'=>array(
+                    'class'=>'col-lg-2 control-label'
+                ),
+                'attr'=>array(
+                    'class'=>'form-control'
+                )
             ))
             ->add('title', TextType::class,
                 array(
@@ -66,17 +72,6 @@ class PostType extends AbstractType
             ->add('content', TextareaType::class,
                 array(
                     'label'=> 'Content',
-                    'required'=> false,
-                    'label_attr'=>array(
-                        'class'=>'col-lg-2 control-label'
-                    ),
-                    'attr'=>array(
-                        'class'=>'form-control'
-                    )
-                ))
-            ->add('type', TextType::class,
-                array(
-                    'label'=> 'Type',
                     'required'=> false,
                     'label_attr'=>array(
                         'class'=>'col-lg-2 control-label'

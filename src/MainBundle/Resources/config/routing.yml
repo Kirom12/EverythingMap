@@ -25,6 +25,13 @@ main_user_profile:
     defaults:
         _controller: MainBundle:User:profile
 
+main_user_profile_id:
+    path: /user/profile/{id}
+    defaults:
+        _controller: MainBundle:User:profileById
+    requirements:
+        id: /d+
+
 #Admin routes
 main_admin:
     path: /admin
