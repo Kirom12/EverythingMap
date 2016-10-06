@@ -1,0 +1,17 @@
+{%  extends ('::base.html.twig') %}
+
+{% block body %}
+
+        <h2>User Profile</h2>
+        <div class="col-md-9">
+            <p><strong>Username : </strong>{{ app.user.username }}</p>
+            <p><strong>First name : </strong>{{ app.user.firstname }}</p>
+            <p><strong>Last name : </strong>{{ app.user.lastname }}</p>
+            <p><strong>Creation date : </strong>{{ app.user.createdDate|date("m/d/Y") }}</p>
+        </div>
+        <div class="col-md-3">
+            <img src="{{ asset(app.user.imageurl) }}" alt="" class="img-thumbnail center-block">
+        </div>
+
+{% endblock %}
+

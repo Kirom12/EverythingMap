@@ -30,7 +30,7 @@ main_user_profile_id:
     defaults:
         _controller: MainBundle:User:profileById
     requirements:
-        id: /d+
+        name: /d+
 
 #Admin routes
 main_admin:
