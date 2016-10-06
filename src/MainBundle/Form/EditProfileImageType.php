@@ -47,9 +47,4 @@ class EditProfileImageType extends AbstractType
             'data_class' => 'MainBundle\Entity\User'
         ));
     }
-
-    public function getName()
-    {
-        return 'main_bundle_edit_profile_type';
-    }
 }
