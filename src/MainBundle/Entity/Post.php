@@ -15,14 +15,14 @@ class Post
 {
     /**
      * @ORM\ManyToOne(targetEntity="MainBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true,onDelete="CASCADE")
      */
     private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity="MainBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="MainBundle\Entity\Category")
      */
-    private $categories;
+    private $category;
 
     /**
      * @ORM\ManyToMany(targetEntity="MainBundle\Entity\Tag")
@@ -291,21 +291,30 @@ class Post
     /**
      * @param mixed $tags
      */
-    public function addTags($tag)
+    public function addTag($tag)
     {
         $this->tags[] = $tag;
         return $this;
     }
 
+    public function removeTag($tag)
+    {
 
-    public function getCategories(){
-        return $this->categories;
     }
 
-    public function addCategories($category){
-        $this->categories[] = $category;
-        return $this;
-    }
+// Used for ManyToMany
+//    public function getCategories(){
+//        return $this->categories;
+//    }
+//
+//    public function addCategory($category){
+//        $this->categories[] = $category;
+//        return $this;
+//    }
+//
+//    public function removeCategory($category) {
+//
+//    }
 
     /**
      * @return string
@@ -321,6 +330,22 @@ class Post
     public function setType($type)
     {
         $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
     }
 
 

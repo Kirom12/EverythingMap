@@ -20,10 +20,11 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            // Doc choice : http://symfony.com/doc/current/reference/forms/types/choice.html
             ->add('type', ChoiceType::class, array(
                 'choices'  => array(
                     '' => '',
-                    'Text' => 'test',
+                    'Text' => 'text',
                     'Picture' => 'picture',
                     'Video' => 'video',
                     'Link' => 'link'
@@ -32,7 +33,7 @@ class PostType extends AbstractType
                     'class'=>'col-lg-2 control-label'
                 ),
                 'attr'=>array(
-                    'class'=>'form-control'
+                    'class'=>'form-control',
                 )
             ))
             ->add('title', TextType::class,
@@ -47,7 +48,7 @@ class PostType extends AbstractType
                     )
                 ))
 
-            ->add('caption', TextType::class,
+            ->add('caption', TextareaType::class,
                 array(
                     'label'=> 'Caption',
                     'required'=> false,
@@ -80,10 +81,11 @@ class PostType extends AbstractType
                         'class'=>'form-control'
                     )
                 ))
-            ->add('categories', EntityType::class,
+            ->add('category', EntityType::class,
                 array(
                     'label'=> 'Categories',
                     'required'=> false,
+                    //'multiple' => true,
                     'label_attr'=>array(
                         'class'=>'col-lg-2 control-label'
                     ),

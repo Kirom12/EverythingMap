@@ -4,9 +4,7 @@
     <h2>Add Post</h2>
 
 
-    {{ form_start(form,
-
-    {'attr':{'class':'form-horizontal'}}) }}
+    {{ form_start(form,{'attr':{'class':'form-horizontal', 'id':'form_post'}}) }}
 
     <div class="form-group">
         {{ form_label(form.type)}}
@@ -16,7 +14,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div id="group_title" class="form-group hidden">
         {{ form_label(form.title)}}
 
         <div class="col-lg-10">
@@ -24,16 +22,7 @@
         </div>
     </div>
 
-
-    <div class="form-group">
-        {{  form_label(form.caption)}}
-
-        <div class="col-lg-10">
-            {{ form_widget(form.caption)}}
-        </div>
-    </div>
-
-    <div class="form-group">
+    <div id="group_link" class="form-group hidden">
         {{  form_label(form.link)}}
 
         <div class="col-lg-10">
@@ -41,7 +30,15 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div id="group_caption" class="form-group hidden">
+        {{  form_label(form.caption)}}
+
+        <div class="col-lg-10">
+            {{ form_widget(form.caption)}}
+        </div>
+    </div>
+
+    <div id="group_content" class="form-group hidden">
         {{  form_label(form.content)}}
 
         <div class="col-lg-10">
@@ -50,24 +47,21 @@
     </div>
 
 
-    <div class="form-group">
-        {{  form_label(form.categories)}}
+    <div id="group_categories" class="form-group hidden">
+        {{  form_label(form.category)}}
 
         <div class="col-lg-10">
-            {{ form_widget(form.categories)}}
+            {{ form_widget(form.category)}}
         </div>
     </div>
 
-    <div class="form-group">
+    <div id="group_tags" class="form-group hidden">
         {{  form_label(form.tags)}}
 
         <div class="col-lg-10">
             {{ form_widget(form.tags)}}
         </div>
     </div>
-
-
-
 
     {{ form_end(form) }}
 

@@ -25,6 +25,10 @@ class PostController extends Controller
         if($form->isValid()){
             $validator = $this->get("validator");
             $errors = $validator->validate($post);
+
+            $post->setCreationDate(new \DateTime());
+
+            //Save post in DB
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
