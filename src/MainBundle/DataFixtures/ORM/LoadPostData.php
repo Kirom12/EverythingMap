@@ -30,9 +30,12 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
         $category->setName("Boobies");
         $manager->persist($category);
 
-
         $category = new Category();
         $category->setName("Chatons");
+        $manager->persist($category);
+
+        $category = new Category();
+        $category->setName("Other");
         $manager->persist($category);
 
 

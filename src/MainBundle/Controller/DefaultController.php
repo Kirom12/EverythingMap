@@ -11,7 +11,10 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        $posts = $this->getDoctrine()->getRepository('MainBundle:Post')->findAll();
+        $posts = $this->getDoctrine()->getRepository('MainBundle:Post')->findBy(
+            array(),
+            array('id' => 'desc')
+        );
 
         return $this->render('MainBundle:Default:index.html.twig', array(
         'compteur'=>count($posts),

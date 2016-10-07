@@ -18,6 +18,9 @@
         <p class="text-center"><strong>OR</strong></p>
         <div class="form-group">
             {{ form_widget(imageForm.imageUrl)}}
+            {% if form.imageFile.vars.errors|length %}
+                <div class="alert alert-danger">{{ form_errors(form.imageFile) }}</div>
+            {% endif %}
         </div>
         {{ form_errors(imageForm) }}
         {{ form_end(imageForm) }}

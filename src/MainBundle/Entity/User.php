@@ -111,6 +111,18 @@ class User implements UserInterface, \Serializable
      */
     private $createdDate;
 
+    /**
+     * @Assert\File(
+     *     maxSize = "400k"
+     * )
+     *
+     * @Assert\Image(
+     *     minWidth = 100,
+     *     maxWidth = 400,
+     *     minHeight = 100,
+     *     maxHeight = 400
+     * )
+     */
     private $imageFile;
 
     public function __constructor($likes){

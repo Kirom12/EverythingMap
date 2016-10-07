@@ -4,6 +4,7 @@ namespace MainBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * post
@@ -21,6 +22,8 @@ class Post
 
     /**
      * @ORM\ManyToOne(targetEntity="MainBundle\Entity\Category")
+     *
+     * @Assert\NotBlank()
      */
     private $category;
 
@@ -45,12 +48,28 @@ class Post
      */
     private $imageUrl;
 
+    /**
+     * @Assert\File(
+     *     maxSize = "1024k"
+     * )
+     *
+     * @Assert\Image(
+     *     minWidth = 200,
+     *     maxWidth = 2000,
+     *     minHeight = 200,
+     *     maxHeight = 2000
+     * )
+     */
     private $imageFile;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min = 5, minMessage = "Title too short")
+     *
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     *
      */
     private $title;
 

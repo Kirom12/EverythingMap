@@ -85,8 +85,8 @@ class UserController extends Controller
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $validator = $this->get("validator");
-            $errors = $validator->validate($user);
+//            $validator = $this->get("validator");
+//            $errors = $validator->validate($user);
 
             $id = uniqid();
             $user = $user->setSalt($id);
@@ -99,7 +99,7 @@ class UserController extends Controller
 
             // Session management: https://symfony.com/doc/current/components/http_foundation/sessions.html
             // Flash message: https://symfony.com/doc/current/controller.html#flash-messages
-            $this->addFlash('register', 'Inscription confirmed. Now log in bitch!');
+            $this->addFlash('success', 'Inscription confirmed. Now log in bitch!');
 
             return $this->redirectToRoute('login');
         }

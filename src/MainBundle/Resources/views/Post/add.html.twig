@@ -19,9 +19,31 @@
 
         <div class="col-md-10">
             {{ form_widget(form.title)}}
+            {% if form.title.vars.errors|length %}
+                <div class="alert alert-danger">{{ form_errors(form.title) }}</div>
+            {% endif %}
         </div>
     </div>
 
+    <div id="group_link" class="form-group hidden">
+        {{  form_label(form.link)}}
+
+        <div class="col-md-10">
+            {{ form_widget(form.link)}}
+            {% if form.link.vars.errors|length %}
+                <div class="alert alert-danger">{{ form_errors(form.link) }}</div>
+            {% endif %}
+
+            <div id="upload_input">
+                <p class="text-center"><strong>OR</strong></p>
+                {{ form_widget(form.imageFile)}}
+                {{ form_widget(form.title)}}
+                {% if form.imageFile.vars.errors|length %}
+                    <div class="alert alert-danger">{{ form_errors(form.imageFile) }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
     <div id="group_caption" class="form-group hidden">
         {{  form_label(form.caption)}}
@@ -31,24 +53,14 @@
         </div>
     </div>
 
-    <div id="group_link" class="form-group hidden">
-        {{  form_label(form.link)}}
-
-        <div class="col-md-10">
-            {{ form_widget(form.link)}}
-
-            <div id="upload_input">
-                <p class="text-center"><strong>OR</strong></p>
-                {{ form_widget(form.imageFile)}}
-            </div>
-        </div>
-    </div>
-
     <div id="group_content" class="form-group hidden">
         {{  form_label(form.content)}}
 
         <div class="col-md-10">
             {{ form_widget(form.content)}}
+            {% if form.content.vars.errors|length %}
+            <div class="alert alert-danger">{{ form_errors(form.content) }}</div>
+            {% endif %}
         </div>
     </div>
 
@@ -58,16 +70,19 @@
 
         <div class="col-md-10">
             {{ form_widget(form.category)}}
+            {% if form.category.vars.errors|length %}
+                <div class="alert alert-danger">{{ form_errors(form.category) }}</div>
+            {% endif %}
         </div>
     </div>
 
-    <div id="group_tags" class="form-group hidden">
-        {{  form_label(form.tags)}}
+    {#<div id="group_tags" class="form-group hidden">#}
+        {#{{  form_label(form.tags)}}#}
 
-        <div class="col-md-10">
-            {{ form_widget(form.tags)}}
-        </div>
-    </div>
+        {#<div class="col-md-10">#}
+            {#{{ form_widget(form.tags)}}#}
+        {#</div>#}
+    {#</div>#}
 
     {{ form_end(form) }}
 

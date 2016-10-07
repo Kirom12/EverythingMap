@@ -12,16 +12,20 @@ tinymce.init({
 });
 
 $(function(){
+    displayInputs($("#post_type").val());
+
     $("#post_type").change(function(){
         var value = $(this).val();
 
-        console.log(value);
+        displayInputs(value);
+    });
 
+    function displayInputs(value) {
         $form = $("#form_post");
 
         $form.find("#group_title").removeClass("hidden");
         $form.find("#group_categories").removeClass("hidden");
-        $form.find("#group_tags").removeClass("hidden");
+        //$form.find("#group_tags").removeClass("hidden");
 
         $form.find("#group_caption").addClass("hidden");
         $form.find("#group_link").addClass("hidden");
@@ -54,5 +58,5 @@ $(function(){
                 $form.find("#group_link").addClass("hidden");
                 $form.find("#group_content").addClass("hidden");
         }
-    })
+    }
 });

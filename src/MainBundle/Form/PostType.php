@@ -62,7 +62,7 @@ class PostType extends AbstractType
                 ))
             ->add('link', TextType::class,
                 array(
-                    'label'=> 'Image',
+                    'label'=> 'Lien',
                     'required'=> false,
                     'label_attr'=>array(
                         'class'=>'col-md-2 control-label'
@@ -92,7 +92,7 @@ class PostType extends AbstractType
                 ))
             ->add('category', EntityType::class,
                 array(
-                    'label'=> 'Categories',
+                    'label'=> 'Category',
                     'required'=> false,
                     //'multiple' => true,
                     'label_attr'=>array(
@@ -104,18 +104,18 @@ class PostType extends AbstractType
                         'class'=>'form-control',
                     )
                 ))
-            ->add('tags', TextType::class,
-                array(
-                    'label'=> 'Tags',
-                    'required'=> false,
-                    'label_attr'=>array(
-                        'class'=>'col-lg-2 control-label'
-                    ),
-                    'attr'=>array(
-                        'class'=>'form-control'
-                    )
-                ))
-
+            // TODO: Implements tags validation
+//            ->add('tags', TextType::class,
+//                array(
+//                    'label'=> 'Tags',
+//                    'required'=> false,
+//                    'label_attr'=>array(
+//                        'class'=>'col-lg-2 control-label'
+//                    ),
+//                    'attr'=>array(
+//                        'class'=>'form-control'
+//                    )
+//                ))
             ->add('submit', SubmitType::class, array(
                 'attr' => array(
                     'class' => 'btn btn-primary'

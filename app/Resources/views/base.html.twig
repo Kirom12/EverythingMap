@@ -13,6 +13,11 @@
     <body>
         {{ include("MainBundle:Default:nav.html.twig") }}
         <div class="container">
+            {% for flash_message in app.session.flashBag.get('success') %}
+                <div class="alert alert-success">
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
             {% block body %}{% endblock %}
         </div>
 
