@@ -1,1 +1,15 @@
-testuuuu
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Confirmation mail</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+    <p>Thanks for your inscription</p>
+    <p>Click on this mail to confirm your inscription</p>
+    <a href="{{ url('main_homepage', {'check': mailCheck, 'id': userId}) }}">{{ url('main_homepage', {'check': mailCheck, 'id': userId}) }}</a>
+</body>
+</html>

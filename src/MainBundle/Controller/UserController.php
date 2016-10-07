@@ -98,6 +98,7 @@ class UserController extends Controller
             $user->addRoles('ROLE_USER');
             $encodedPassword = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
             $user->setPassword($encodedPassword);
+            $user->setMailCheck(uniqid().uniqid());
 
             $user->setCreatedDate(new \DateTime());
 
@@ -113,7 +114,12 @@ class UserController extends Controller
                 ->setBody(
                     $this->renderView(
                     // app/Resources/views/Emails/registration.html.twig
-                        'Emails/confirmation.html.twig'),
+                        'Emails/confirmation.html.twig',
+                        array(
+                            'mailCheck' => $user->getMailCheck(),
+                            'userId' => $user->getId()
+                        )
+                    ),
                     'text/html'
                 )
                 /*

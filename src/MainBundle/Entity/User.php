@@ -100,6 +100,12 @@ class User implements UserInterface, \Serializable
 
     /**
      * @var string
+     * @ORM\Column(name="mail_check", type="string", length=255)
+     */
+    private $mailCheck;
+
+    /**
+     * @var string
      * @ORM\Column(name="image_url", type="string", length=255, nullable=true)
      */
     private $imageUrl;
@@ -418,6 +424,22 @@ class User implements UserInterface, \Serializable
     public function setCreatedDate($createdDate)
     {
         $this->createdDate = $createdDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMailCheck()
+    {
+        return $this->mailCheck;
+    }
+
+    /**
+     * @param string $mailCheck
+     */
+    public function setMailCheck($mailCheck)
+    {
+        $this->mailCheck = $mailCheck;
     }
 
     /**
