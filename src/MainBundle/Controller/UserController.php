@@ -34,27 +34,30 @@ class UserController extends Controller
     {
         $user = $this->getUser();
 
-        $imageForm = $this->createForm(EditProfileImageType::class, $user);
+        $imageForm = $this->createForm(EditProfileImageType::class, $user, array('method' => 'PUT'));
 
         $imageForm->handleRequest($request);
 
-        if($imageForm->isSubmitted() && $imageForm->isValid()){
+        if($imageForm->isValid()){
+            //dump($user);die;
             // http://symfony.com/doc/current/controller/upload_file.html
             // $file stores the uploaded PDF file
 
-            //dump($user);die;
-            //$file = $user->getImageFile();
+            $file = $user->getImageFile();
 
             //dump($file);
             //die;
-            $url = $user->getImageUrl();
+            //$url = $user->getImageUrl();
 
-            if (!empty($file)) {
-                $imageName = uniqid();
-                $file->move('library/profile_image/', $imageName);
-                $user->setImageUrl('library/profile_image/'.$imageName.'.jpg');
+            $imageName = uniqid().'.jpg';
+            $file->move('library/profile_image/', $imageName);
+            $user->setImageUrl('library/profile_image/'.$imageName);
 
-            }
+            $user->setImageFile(null);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
         }
 
         return $this->render('MainBundle:User:profile.html.twig', array(
@@ -89,6 +92,7 @@ class UserController extends Controller
             $user = $user->setSalt($id);
             $user->addRoles('ROLE_USER');
             $user->setCreatedDate(new \DateTime());
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();

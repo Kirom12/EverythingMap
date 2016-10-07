@@ -15,7 +15,7 @@ class Post
 {
     /**
      * @ORM\ManyToOne(targetEntity="MainBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true,onDelete="CASCADE")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $user;
 

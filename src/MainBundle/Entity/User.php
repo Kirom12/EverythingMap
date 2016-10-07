@@ -8,7 +8,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-//http://symfony.com/doc/current/validation.html
+// http://symfony.com/doc/current/validation.html
+// Load user from DB: http://symfony.com/doc/current/security/entity_provider.html
+
 
 /**
  * User
@@ -18,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("pseudo", message="Pseudo already exist")
  * @UniqueEntity("mail", message="Email already exist")
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\ManyToMany(targetEntity="MainBundle\Entity\Post")
@@ -45,7 +47,7 @@ class User implements UserInterface
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(min = 8, max = 30, minMessage = "Password too short", maxMessage = "Password too long")
+     * @Assert\Length(min = 8, minMessage = "Password too short")
      *
      * @var string
      * @ORM\Column(name="password", type="string", length=255)
@@ -415,6 +417,45 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * String representation of object
+     * @link http://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     * @since 5.1.0
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->pseudo,
+            $this->password,
+            $this->lastName,
+            $this->firstName,
+            //$this->imageFile
+        ));
+    }
+
+    /**
+     * Constructs the object
+     * @link http://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized <p>
+     * The string representation of the object.
+     * </p>
+     * @return void
+     * @since 5.1.0
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->pseudo,
+            $this->password,
+            $this->lastName,
+            $this->firstName,
+            //$this->imageFile
+            ) = unserialize($serialized);
     }
 }
 
