@@ -14,6 +14,7 @@ class UserController extends Controller
     public function loginAction()
     {
         //Security: http://symfony.com/doc/current/security.html
+        //Login form: http://symfony.com/doc/current/security/form_login_setup.html
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('main_homepage');
         }
@@ -71,7 +72,6 @@ class UserController extends Controller
 
         return $this->render('MainBundle:User:userProfile.html.twig', array(
             'user' =>$user
-
         ));
 
     }

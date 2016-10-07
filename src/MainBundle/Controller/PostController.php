@@ -6,13 +6,16 @@ use MainBundle\Entity\Post;
 use MainBundle\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
 class PostController extends Controller
 {
     public function addAction(Request $request)
     {
-
+        $this->get('doctrine');
         $post = new Post();
 
         $form = $this->createForm(PostType::class, $post);
@@ -46,10 +49,12 @@ class PostController extends Controller
                     $imageName = uniqid().'.jpg';
 
                     if (!is_null($file)) { //If url image, priority is on upload
+                        //dump($file);die;
                         $file->move('library/posts', $imageName);
                     } elseif(!empty($url)) {
-                        $file = file_get_contents($url);
-                        file_put_contents('library/posts/'. $imageName, $file);
+                        // Down img: http://stackoverflow.com/questions/6476212/save-image-from-url-with-curl-php
+                        $img = file_get_contents($url);
+
                     } else {
                         $error = new FormError("No image");
                         $form->get('imageFile')->addError($error);

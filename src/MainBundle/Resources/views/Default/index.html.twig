@@ -3,31 +3,64 @@
 
     {% for post in posts %}
 
-        <h4>{{ post.title }}</h4>
-        <p>{{ post.user.pseudo }}</p>
-        <p>{{ post.creationDate|date("m/d/Y") }}</p>
+        <div class="post col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ post.title }}</h3>
+                </div>
+                <div class="panel-body">
+                    {% if post.type == "video" %}
+                        {# TODO: Integer video #}
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="{{ asset(post.link) }}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="description">
+                            <strong>Description :</strong>
+                            <p>
+                                {{ post.caption }}
+                            </p>
+                        </div>
 
-        {% if post.type == "video" %}
-            <p>{{ post.caption }}</p>
-            <p>{{ post.link }}</p>
+                    {% elseif post.type == "link" %}
+                        <div class="post-link">
+                            <a href="{{ asset(post.link) }}">{{ post.link }}</a>
+                        </div>
+                        <div class="description">
+                            <strong>Description :</strong>
+                            <p>
+                                {{ post.caption }}
+                            </p>
+                        </div>
+                    {% elseif post.type == "text" %}
+                        <p>{{  post.content }}</p>
 
-        {% elseif post.type == "link" %}
-            <p>{{ post.caption }}</p>
-            <p>{{ post.link }}</p>
-
-        {% elseif post.type == "text" %}
-            <p>{{  post.content }}</p>
-
-        {% elseif post.type == "picture" %}
-            <p>{{ post.caption }}</p>
-            <p>{{ post.link }}</p>
-            <p>{{ post.imageUrl }}</p>
-
-
-        {% else %}
+                    {% elseif post.type == "picture" %}
+                        <div class="post-picture">
+                            <img src="{{ asset(post.imageUrl) }}" alt="Image not found">
+                        </div>
+                        <div class="description">
+                            <strong>Description :</strong>
+                            <p>
+                                {{ post.caption }}
+                            </p>
+                        </div>
 
 
-        {% endif %}
+                    {% else %}
+
+
+                    {% endif %}
+                </div>
+                <div class="panel-footer">
+                    {% if post.user.id is not empty %}
+                        By <a href="{{ path('main_user_profile_id', {'id': post.user.id}) }}"><strong>{{ post.user.pseudo }}</strong></a>
+                    {% else %}
+                        By <strong>{{ post.user.pseudo }}</strong>
+                    {% endif %}
+                    on {{ post.creationDate|date("m/d/Y h:m:s") }}
+                </div>
+            </div>
+        </div>
 
     {% endfor %}
 {% endblock %}

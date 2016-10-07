@@ -1,6 +1,6 @@
 {% extends('::base.html.twig') %}
 {% block body %}
-    <h2>Profile</h2>
+    <h2>My Profile</h2>
     <div class="col-md-9">
         <p><strong>Username : </strong>{{ app.user.pseudo }}</p>
         <p><strong>Email : </strong>{{ app.user.mail }}</p>
@@ -18,8 +18,8 @@
         <p class="text-center"><strong>OR</strong></p>
         <div class="form-group">
             {{ form_widget(imageForm.imageUrl)}}
-            {% if form.imageFile.vars.errors|length %}
-                <div class="alert alert-danger">{{ form_errors(form.imageFile) }}</div>
+            {% if imageForm.imageFile.vars.errors|length %}
+                <div class="alert alert-danger">{{ form_errors(imageForm.imageFile) }}</div>
             {% endif %}
         </div>
         {{ form_errors(imageForm) }}

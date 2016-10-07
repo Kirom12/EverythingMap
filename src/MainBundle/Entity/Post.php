@@ -242,6 +242,9 @@ class Post
      */
     public function getCaption()
     {
+        if(empty($this->caption)) {
+            return "No description";
+        }
         return $this->caption;
     }
 

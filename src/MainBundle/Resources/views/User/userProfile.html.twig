@@ -2,15 +2,15 @@
 
 {% block body %}
 
-        <h2>User Profile</h2>
+        <h2>{{ user.username }}'s profile <small><a href="{{ path('main_user_profile') }}">Go to my profile</a></small></h2>
         <div class="col-md-9">
-            <p><strong>Username : </strong>{{ app.user.username }}</p>
-            <p><strong>First name : </strong>{{ app.user.firstname }}</p>
-            <p><strong>Last name : </strong>{{ app.user.lastname }}</p>
-            <p><strong>Creation date : </strong>{{ app.user.createdDate|date("m/d/Y") }}</p>
+            <p><strong>Username : </strong>{{ user.username }}</p>
+            <p><strong>First name : </strong>{{ user.firstname }}</p>
+            <p><strong>Last name : </strong>{{ user.lastname }}</p>
+            <p><strong>Creation date : </strong>{{ user.createdDate|date("m/d/Y") }}</p>
         </div>
         <div class="col-md-3">
-            <img src="{{ asset(app.user.imageurl) }}" alt="" class="img-thumbnail center-block">
+            <img src="{{ asset(user.imageurl) }}" alt="" class="img-thumbnail center-block">
         </div>
 
 {% endblock %}
