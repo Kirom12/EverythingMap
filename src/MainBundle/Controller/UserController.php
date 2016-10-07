@@ -78,6 +78,11 @@ class UserController extends Controller
 
     public function registerAction(Request $request)
     {
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('main_homepage');
+        }
+
+
         //http://symfony.com/doc/current/doctrine/registration_form.html
         $user = new User();
 
@@ -91,11 +96,38 @@ class UserController extends Controller
             $id = uniqid();
             $user = $user->setSalt($id);
             $user->addRoles('ROLE_USER');
+            $encodedPassword = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+            $user->setPassword($encodedPassword);
+
             $user->setCreatedDate(new \DateTime());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
+            // Send email: http://symfony.com/doc/current/email.html
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Inscription confirmation')
+                ->setFrom('everythingmap.dev@gmail.com')
+                ->setTo($user->getMail())
+                ->setBody(
+                    $this->renderView(
+                    // app/Resources/views/Emails/registration.html.twig
+                        'Emails/confirmation.html.twig'),
+                    'text/html'
+                )
+                /*
+                 * If you also want to include a plaintext version of the message
+                ->addPart(
+                    $this->renderView(
+                        'Emails/registration.txt.twig',
+                        array('name' => $name)
+                    ),
+                    'text/plain'
+                )
+                */
+            ;
+            $this->get('mailer')->send($message);
 
             // Session management: https://symfony.com/doc/current/components/http_foundation/sessions.html
             // Flash message: https://symfony.com/doc/current/controller.html#flash-messages
