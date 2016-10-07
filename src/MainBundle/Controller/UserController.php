@@ -15,10 +15,9 @@ class UserController extends Controller
     {
         //Security: http://symfony.com/doc/current/security.html
         //Login form: http://symfony.com/doc/current/security/form_login_setup.html
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('main_homepage');
-        }
+        $this->checkAuth("main_homepage");
 
+        // User checkers: http://symfony.com/doc/current/security/user_checkers.html
         $authenticationUtils = $this->get('security.authentication_utils');
 
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -68,20 +67,16 @@ class UserController extends Controller
 
     public function profileByIdAction($id)
     {
-        $user = $this->getDoctrine()->getRepository("MainBundle:User")->find ($id);
+        $user = $this->getDoctrine()->getRepository("MainBundle:User")->find($id);
 
         return $this->render('MainBundle:User:userProfile.html.twig', array(
             'user' =>$user
         ));
-
     }
 
     public function registerAction(Request $request)
     {
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('main_homepage');
-        }
-
+        $this->checkAuth("main_homepage");
 
         //http://symfony.com/doc/current/doctrine/registration_form.html
         $user = new User();
@@ -102,6 +97,7 @@ class UserController extends Controller
 
             $user->setCreatedDate(new \DateTime());
 
+            //Database : http://symfony.com/doc/current/doctrine.html
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -137,7 +133,7 @@ class UserController extends Controller
 
             // Session management: https://symfony.com/doc/current/components/http_foundation/sessions.html
             // Flash message: https://symfony.com/doc/current/controller.html#flash-messages
-            $this->addFlash('success', 'Inscription confirmed. Now log in bitch!');
+            $this->addFlash('success', 'Confirm your account before log in.');
 
             return $this->redirectToRoute('login');
         }
@@ -145,5 +141,35 @@ class UserController extends Controller
         return $this->render('MainBundle:User:register.html.twig', array(
             'form' => $form->createView()
         ));
+    }
+
+    public function checkRegistrationAction($check, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getDoctrine()->getRepository("MainBundle:User")->find($id);
+
+        if (!$user) {
+            throw $this->createNotFoundException(
+                'No product found for id '. $id
+            );
+        }
+
+        if($user->getMailCheck() === $check) {
+            $user->setValid(true);
+            $em->flush();
+
+            $this->addFlash('success', 'Inscription confirmed. Now log in bitch!');
+        } else {
+            $this->addFlash('error', 'Error during the confirmation. Check the link');
+        }
+
+        return $this->redirectToRoute('login');
+    }
+
+    private function checkAuth($route)
+    {
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute($route);
+        }
     }
 }

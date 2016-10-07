@@ -10,9 +10,16 @@ main_post_add:
         _controller: MainBundle:Post:add
 
 main_register:
-    path : /register
+    path: /register
     defaults:
         _controller: MainBundle:User:register
+
+main_register_check:
+    path: /register/check/{check}/{id}
+    defaults:
+        _controller: MainBundle:User:checkRegistration
+    requirements:
+        id: '\d+'
 
 #User routes
 main_user:
@@ -30,7 +37,7 @@ main_user_profile_id:
     defaults:
         _controller: MainBundle:User:profileById
     requirements:
-        name: /d+
+        id: '\d+'
 
 #Admin routes
 main_admin:

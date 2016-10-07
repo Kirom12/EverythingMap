@@ -90,7 +90,7 @@ class User implements UserInterface, \Serializable
      *
      * @ORM\Column(name="valid", type="boolean", options={"default" : false})
      */
-    private $valid = 0;
+    private $valid = false;
 
     /**
      * @var string
