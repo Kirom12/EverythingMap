@@ -27,7 +27,7 @@ class PostType extends AbstractType
                     '' => '',
                     'Text' => 'text',
                     'Picture' => 'picture',
-                    'Video' => 'video',
+                    'Youtube Video' => 'video',
                     'Link' => 'link'
                 ),
                 'label_attr'=>array(
