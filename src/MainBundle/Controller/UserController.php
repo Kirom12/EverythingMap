@@ -3,6 +3,9 @@
 namespace MainBundle\Controller;
 
 use MainBundle\Entity\User;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use MainBundle\Form\EditProfileImageType;
 use MainBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,13 +16,15 @@ class UserController extends Controller
 {
     public function loginAction()
     {
+        // TODO: Read https://symfony.com/doc/current/components/security/authentication.html
+
         //Security: http://symfony.com/doc/current/security.html
         //Login form: http://symfony.com/doc/current/security/form_login_setup.html
         $this->checkAuth("main_homepage");
 
         // User checkers: http://symfony.com/doc/current/security/user_checkers.html
-        $authenticationUtils = $this->get('security.authentication_utils');
 
+        $authenticationUtils = $this->get('security.authentication_utils');
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -150,17 +155,19 @@ class UserController extends Controller
 
         if (!$user) {
             throw $this->createNotFoundException(
-                'No product found for id '. $id
+                'No user found for id '. $id
             );
-        }
+        } else if (!$user->getValid()) {
+            if($user->getMailCheck() === $check) {
+                $user->setValid(true);
+                $em->flush();
 
-        if($user->getMailCheck() === $check) {
-            $user->setValid(true);
-            $em->flush();
-
-            $this->addFlash('success', 'Inscription confirmed. Now log in bitch!');
+                $this->addFlash('success', 'Inscription confirmed. Now log in bitch!');
+            } else {
+                $this->addFlash('error', 'Error during the confirmation. Check the link');
+            }
         } else {
-            $this->addFlash('error', 'Error during the confirmation. Check the link');
+            $this->addFlash('error', 'Your already confirm your account.');
         }
 
         return $this->redirectToRoute('login');

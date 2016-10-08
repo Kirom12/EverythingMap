@@ -25,6 +25,7 @@ security:
 
         main:
             pattern: ^/
+            user_checker: app.user_checker
             anonymous: true
             provider: main
             form_login:

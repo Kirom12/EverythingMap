@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 // http://symfony.com/doc/current/validation.html
 // Load user from DB: http://symfony.com/doc/current/security/entity_provider.html
-
+// TODO: Read http://symfony.com/doc/current/security/custom_provider.html
 
 /**
  * User
