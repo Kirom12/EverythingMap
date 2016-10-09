@@ -20,9 +20,7 @@ class postRepository extends \Doctrine\ORM\EntityRepository
             throw new NotFoundHttpException('Page does not exist');
         }
         if (!is_numeric($nbrPostPage)) {
-            throw new InvalidArgumentException(
-                'Incorrect value for number post per page.'
-            );
+            throw new InvalidArgumentException('Page not found.');
         }
 
         $first_result = ($page-1)*$nbrPostPage;

@@ -7,8 +7,8 @@ use MainBundle\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PostController extends Controller
 {
@@ -158,5 +158,23 @@ class PostController extends Controller
             'form'=>$form->createView(),
         ));
 
+    }
+
+    public function deleteAction($id, Request $request) {
+        $user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $post = $em->getRepository("MainBundle:Post")->find($id);
+
+        if (!$post) { throw new NotFoundHttpException('Page not found'); }
+        if ($post->getUser() !== $user && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) { throw new NotFoundHttpException('Page not found'); }
+
+        $em->remove($post);
+        $em->flush();
+
+        $this->addFlash('success', 'Post deleted');
+
+        return $this->redirect($request->headers->get('referer'));
     }
 }

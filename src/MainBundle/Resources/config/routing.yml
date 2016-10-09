@@ -47,6 +47,13 @@ main_user_profile_page:
         id: '\d+'
         page: '\d+'
 
+main_user_post_delete:
+    path: /user/post/delete/{id}
+    defaults:
+        _controller: MainBundle:Post:delete
+    requirements:
+        id: '\d+'
+
 #Admin routes
 main_admin:
     path: /admin

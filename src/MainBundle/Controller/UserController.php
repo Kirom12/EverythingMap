@@ -9,6 +9,7 @@ use MainBundle\Form\EditProfileImageType;
 use MainBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
 {
@@ -32,7 +33,6 @@ class UserController extends Controller
         ));
     }
 
-
     public function profileAction($id = 0, $page = 1, Request $request)
     {
         //Pagination : http://www.aubm.net/blog/la-pagination-avec-doctrine-la-bonne-methode/
@@ -45,6 +45,8 @@ class UserController extends Controller
         if ($id != 0 && $id != $user->getId()) { // The current user is not the logged user
             $loggedUser = false;
             $user = $this->getDoctrine()->getRepository("MainBundle:User")->find($id); // Get the profil from other user
+
+            if (!$user) { throw new NotFoundHttpException('Page not found'); }
         }
 
         $pg = $this->getDoctrine()->getRepository('MainBundle:Post')->getUserPosts($user->getId(), $page, $nbPostPage);
