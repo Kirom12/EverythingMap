@@ -33,14 +33,19 @@ class UserController extends Controller
     }
 
 
-    public function profileAction($page = 1,Request $request)
+    public function profileAction($id = 0, $page = 1, Request $request)
     {
         //Pagination : http://www.aubm.net/blog/la-pagination-avec-doctrine-la-bonne-methode/
         // & http://www.christophe-meneses.fr/article/creer-une-pagination-sur-un-projet-symfony
-
         $nbPostPage = 9;
+        $loggedUser = true;
 
         $user = $this->getUser();
+
+        if ($id != 0 && $id != $user->getId()) { // The current user is not the logged user
+            $loggedUser = false;
+            $user = $this->getDoctrine()->getRepository("MainBundle:User")->find($id); // Get the profil from other user
+        }
 
         $pg = $this->getDoctrine()->getRepository('MainBundle:Post')->getUserPosts($user->getId(), $page, $nbPostPage);
 
@@ -50,83 +55,87 @@ class UserController extends Controller
             'page' => $page,
             'nbPages' => ceil($pg->count() / $nbPostPage),
             'nomRoute' => 'main_user_profile_page',
-            'paramsRoute' => array()
+            'paramsRoute' => array(
+                'id' => $user->getId()
+            )
         );
 
-        $imageForm = $this->createForm(EditProfileImageType::class, $user, array('method' => 'PUT'));
+        // The user is the logged user
+        if ($loggedUser) {
+            $imageForm = $this->createForm(EditProfileImageType::class, $user, array('method' => 'PUT'));
 
-        $imageForm->handleRequest($request);
+            $imageForm->handleRequest($request);
 
-        if($imageForm->isSubmitted()) {
-            $file = $user->getImageFile();
-            $url = $user->getImageUrl();
-            $user->setImageUrl(NULL);
-            $imageName = uniqid();
+            if($imageForm->isSubmitted()) {
+                $file = $user->getImageFile();
+                $url = $user->getImageUrl();
+                $user->setImageUrl(NULL);
+                $imageName = uniqid();
 
-            if (!is_null($file)) { //If upload image (priority is on upload)
-                $imageName .= '.' . $file->guessExtension();
-            } elseif (!empty($url)) { // url image
-                try {
-                    $file = $this->get('app.url_uploader')->getImageFromUrl($url, $imageName, 1024);
+                if (!is_null($file)) { //If upload image (priority is on upload)
+                    $imageName .= '.' . $file->guessExtension();
+                } elseif (!empty($url)) { // url image
+                    try {
+                        $file = $this->get('app.url_uploader')->getImageFromUrl($url, $imageName, 1024);
 
-                    $user->setImageFile($file);
+                        $user->setImageFile($file);
 
-                    //Check file is image and dimension
-                    $validator = $this->get('validator');
-                    $errors = $validator->validate($user);
-                    //Throw error if not good
-                    if (count($errors) > 0) {
-                        foreach ($errors as $error) {
-                            $error = new FormError($error->getMessage());
-                            $imageForm->get('imageFile')->addError($error);
+                        //Check file is image and dimension
+                        $validator = $this->get('validator');
+                        $errors = $validator->validate($user);
+                        //Throw error if not good
+                        if (count($errors) > 0) {
+                            foreach ($errors as $error) {
+                                $error = new FormError($error->getMessage());
+                                $imageForm->get('imageFile')->addError($error);
+                            }
+
+                            // Delete the temp file
+                            unlink('library/tmp/' . $imageName);
+                            throw new Exception();
                         }
 
-                        // Delete the temp file
-                        unlink('library/tmp/' . $imageName);
-                        throw new Exception();
+                        $imageName .= '.' . $file->guessExtension();
+                        $upload = true;
+                    } catch (Exception $e) {
+                        if (!empty($e->getMessage())) {
+                            $error = new FormError($e->getMessage());
+                            $imageForm->get('imageFile')->addError($error);
+                        }
                     }
-
-                    $imageName .= '.' . $file->guessExtension();
-                    $upload = true;
-                } catch (Exception $e) {
-                    if (!empty($e->getMessage())) {
-                        $error = new FormError($e->getMessage());
-                        $imageForm->get('imageFile')->addError($error);
-                    }
+                }  else { // Not necessary ? (asserts)
+                    $error = new FormError("No image");
+                    $imageForm->get('imageFile')->addError($error);
                 }
-            }  else { // Not necessary ? (asserts)
-                $error = new FormError("No image");
-                $imageForm->get('imageFile')->addError($error);
             }
+
+            if($imageForm->isValid()){
+                // TODO: delete old image
+
+                $file->move('library/profile_image/', $imageName);
+                $user->setImageUrl('library/profile_image/'.$imageName);
+
+                $user->setImageFile(null);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+            }
+
+            return $this->render('MainBundle:User:profile.html.twig', array(
+                'userPosts' => $userPosts,
+                'pagination' => $pagination,
+                'imageForm' => $imageForm->createView()
+            ));
+        } else { // The user is not the logged user
+            return $this->render('MainBundle:User:userProfile.html.twig', array(
+                'user' => $user,
+                'userPosts' => $userPosts,
+                'pagination' => $pagination
+            ));
         }
 
-        if($imageForm->isValid()){
-            // TODO: delete old image
 
-            $file->move('library/profile_image/', $imageName);
-            $user->setImageUrl('library/profile_image/'.$imageName);
-
-            $user->setImageFile(null);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-        }
-
-        return $this->render('MainBundle:User:profile.html.twig', array(
-            'userPosts' => $userPosts,
-            'pagination' => $pagination,
-            'imageForm' => $imageForm->createView()
-        ));
-    }
-
-    public function profileByIdAction($id)
-    {
-        $user = $this->getDoctrine()->getRepository("MainBundle:User")->find($id);
-
-        return $this->render('MainBundle:User:userProfile.html.twig', array(
-            'user' =>$user
-        ));
     }
 
     public function registerAction(Request $request)

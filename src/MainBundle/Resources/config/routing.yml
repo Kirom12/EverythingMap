@@ -27,24 +27,25 @@ main_user:
     defaults:
         _controller: MainBundle:Default:indexUser
 
-main_user_profile:
+main_my_profile:
     path: /user/profile
     defaults:
         _controller: MainBundle:User:profile
 
-main_user_profile_page:
-    path: /user/profile/page/{page}
+main_user_profile:
+    path: /user/profile/{id}
     defaults:
         _controller: MainBundle:User:profile
     requirements:
-            page: '\d+'
+        id: '\d+'
 
-main_user_profile_id:
-    path: /user/profile/{id}
+main_user_profile_page:
+    path: /user/profile/{id}/{page}
     defaults:
-        _controller: MainBundle:User:profileById
+        _controller: MainBundle:User:profile
     requirements:
         id: '\d+'
+        page: '\d+'
 
 #Admin routes
 main_admin:

@@ -47,7 +47,7 @@
         </div>
         <div class="panel-footer">
             {% if post.user.id is not empty %}
-                By <a href="{{ path('main_user_profile_id', {'id': post.user.id}) }}"><strong>{{ post.user.pseudo }}</strong></a>
+                By <a href="{{ path('main_user_profile', {'id': post.user.id}) }}"><strong>{{ post.user.pseudo }}</strong></a>
             {% else %}
                 By <strong>{{ post.user.pseudo }}</strong>
             {% endif %}

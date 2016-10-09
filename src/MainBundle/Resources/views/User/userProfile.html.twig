@@ -2,16 +2,26 @@
 
 {% block body %}
 
-        <h2>{{ user.username }}'s profile <small><a href="{{ path('main_user_profile') }}">Go to my profile</a></small></h2>
-        <div class="col-md-9">
-            <p><strong>Username : </strong>{{ user.username }}</p>
-            <p><strong>First name : </strong>{{ user.firstname }}</p>
-            <p><strong>Last name : </strong>{{ user.lastname }}</p>
-            <p><strong>Creation date : </strong>{{ user.createdDate|date("m/d/Y") }}</p>
+        <h2 class="row">{{ user.username }}'s profile <small><a href="{{ path('main_my_profile') }}">Go to my profile</a></small></h2>
+        <div class="row">
+            <div class="col-md-9">
+                <p><strong>Username : </strong>{{ user.username }}</p>
+                <p><strong>First name : </strong>{{ user.firstname }}</p>
+                <p><strong>Last name : </strong>{{ user.lastname }}</p>
+                <p><strong>Creation date : </strong>{{ user.createdDate|date("m/d/Y") }}</p>
+            </div>
+            <div class="col-md-3">
+                <img src="{{ asset(user.imageurl) }}" alt="" class="img-thumbnail center-block">
+            </div>
         </div>
-        <div class="col-md-3">
-            <img src="{{ asset(user.imageurl) }}" alt="" class="img-thumbnail center-block">
+        <h2 class="row">{{  user.username }}'s posts</h2>
+        <div class="row">
+            {% for post in userPosts %}
+                {{ include("MainBundle:Post:onePost.html.twig") }}
+            {% endfor %}
         </div>
-
+        <div class="row text-center">
+            {{ include("MainBundle:Post:pagination.html.twig") }}
+        </div>
 {% endblock %}
 
