@@ -1,0 +1,57 @@
+<div class="post col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ post.title }}</h3>
+        </div>
+        <div class="panel-body">
+            {% if post.type == "video" %}
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ post.link }}" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="description">
+                    <strong>Description :</strong>
+                    <p>
+                        {{ post.caption }}
+                    </p>
+                </div>
+
+            {% elseif post.type == "link" %}
+                <div class="post-link">
+                    <a href="{{ asset(post.link) }}">{{ post.link }}</a>
+                </div>
+                <div class="description">
+                    <strong>Description :</strong>
+                    <p>
+                        {{ post.caption }}
+                    </p>
+                </div>
+            {% elseif post.type == "text" %}
+                <p>{{  post.content }}</p>
+
+            {% elseif post.type == "picture" %}
+                <div class="post-picture">
+                    <img src="{{ asset(post.imageUrl) }}" alt="Image not found">
+                </div>
+                <div class="description">
+                    <strong>Description :</strong>
+                    <p>
+                        {{ post.caption }}
+                    </p>
+                </div>
+
+
+            {% else %}
+
+
+            {% endif %}
+        </div>
+        <div class="panel-footer">
+            {% if post.user.id is not empty %}
+                By <a href="{{ path('main_user_profile_id', {'id': post.user.id}) }}"><strong>{{ post.user.pseudo }}</strong></a>
+            {% else %}
+                By <strong>{{ post.user.pseudo }}</strong>
+            {% endif %}
+            on {{ post.creationDate|date("m/d/Y h:m:s") }}
+        </div>
+    </div>
+</div>

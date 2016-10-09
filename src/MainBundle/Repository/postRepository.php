@@ -2,6 +2,10 @@
 
 namespace MainBundle\Repository;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use InvalidArgumentException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 /**
  * postRepository
  *
@@ -10,4 +14,34 @@ namespace MainBundle\Repository;
  */
 class postRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getUserPosts($userId, $page, $nbrPostPage = 10)
+    {
+        if ($page < 1) {
+            throw new NotFoundHttpException('Page does not exist');
+        }
+        if (!is_numeric($nbrPostPage)) {
+            throw new InvalidArgumentException(
+                'Incorrect value for number post per page.'
+            );
+        }
+
+        $first_result = ($page-1)*$nbrPostPage;
+        $max_results = $nbrPostPage;
+
+        $qb = $this->createQueryBuilder('post');
+        $qb
+            ->select('post')
+            ->where('post.user = :userId')
+            ->setParameter('userId', $userId)
+            ->setFirstResult($first_result)
+            ->setMaxResults($max_results);
+
+        $paginator = new Paginator($qb);
+
+        if ( ($paginator->count() <= $first_result) && $page != 1) {
+            throw new NotFoundHttpException('Page does not exist'); // page 404, sauf pour la première page
+        }
+
+        return $paginator;
+    }
 }

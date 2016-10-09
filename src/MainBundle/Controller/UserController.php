@@ -33,9 +33,25 @@ class UserController extends Controller
     }
 
 
-    public function profileAction(Request $request)
+    public function profileAction($page = 1,Request $request)
     {
+        //Pagination : http://www.aubm.net/blog/la-pagination-avec-doctrine-la-bonne-methode/
+        // & http://www.christophe-meneses.fr/article/creer-une-pagination-sur-un-projet-symfony
+
+        $nbPostPage = 9;
+
         $user = $this->getUser();
+
+        $pg = $this->getDoctrine()->getRepository('MainBundle:Post')->getUserPosts($user->getId(), $page, $nbPostPage);
+
+        $userPosts = $pg->getQuery()->getResult();
+
+        $pagination = array(
+            'page' => $page,
+            'nbPages' => ceil($pg->count() / $nbPostPage),
+            'nomRoute' => 'main_user_profile_page',
+            'paramsRoute' => array()
+        );
 
         $imageForm = $this->createForm(EditProfileImageType::class, $user, array('method' => 'PUT'));
 
@@ -98,6 +114,8 @@ class UserController extends Controller
         }
 
         return $this->render('MainBundle:User:profile.html.twig', array(
+            'userPosts' => $userPosts,
+            'pagination' => $pagination,
             'imageForm' => $imageForm->createView()
         ));
     }

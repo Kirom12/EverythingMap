@@ -13,7 +13,7 @@ class DefaultController extends Controller
     {
         $posts = $this->getDoctrine()->getRepository('MainBundle:Post')->findBy(
             array(),
-            array('id' => 'desc')
+            array('id' => 'DESC')
         );
 
         return $this->render('MainBundle:Default:index.html.twig', array(

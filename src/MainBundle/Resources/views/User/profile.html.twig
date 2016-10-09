@@ -1,29 +1,41 @@
 {% extends('::base.html.twig') %}
 {% block body %}
-    <h2>My Profile</h2>
-    <div class="col-md-9">
-        <p><strong>Username : </strong>{{ app.user.pseudo }}</p>
-        <p><strong>Email : </strong>{{ app.user.mail }}</p>
-        <p><strong>First name : </strong>{{ app.user.firstname }}</p>
-        <p><strong>Last name : </strong>{{ app.user.lastname }}</p>
-        <p><strong>Creation date : </strong>{{ app.user.createdDate|date("m/d/Y") }}</p>
+
+    <h2 class="row">My Profile</h2>
+    <div class="row">
+        <div class="col-md-9">
+            <p><strong>Username : </strong>{{ app.user.pseudo }}</p>
+            <p><strong>Email : </strong>{{ app.user.mail }}</p>
+            <p><strong>First name : </strong>{{ app.user.firstname }}</p>
+            <p><strong>Last name : </strong>{{ app.user.lastname }}</p>
+            <p><strong>Creation date : </strong>{{ app.user.createdDate|date("m/d/Y") }}</p>
+        </div>
+        <div class="col-md-3">
+            <img src="{{ asset(app.user.imageurl) }}" alt="" class="img-thumbnail center-block">
+            <h4>Modify image :</h4>
+            {{ form_start(imageForm, {'attr':{'class':'form-horizontal'}}) }}
+            <div class="form-group">
+                {{ form_widget(imageForm.imageFile)}}
+            </div>
+            <p class="text-center"><strong>OR</strong></p>
+            <div class="form-group">
+                {{ form_widget(imageForm.imageUrl)}}
+                {% if imageForm.imageFile.vars.errors|length %}
+                    <div class="alert alert-danger">{{ form_errors(imageForm.imageFile) }}</div>
+                {% endif %}
+            </div>
+            {{ form_errors(imageForm) }}
+            {{ form_end(imageForm) }}
+        </div>
     </div>
-    <div class="col-md-3">
-        <img src="{{ asset(app.user.imageurl) }}" alt="" class="img-thumbnail center-block">
-        <h4>Modify image :</h4>
-        {{ form_start(imageForm, {'attr':{'class':'form-horizontal'}}) }}
-        <div class="form-group">
-            {{ form_widget(imageForm.imageFile)}}
-        </div>
-        <p class="text-center"><strong>OR</strong></p>
-        <div class="form-group">
-            {{ form_widget(imageForm.imageUrl)}}
-            {% if imageForm.imageFile.vars.errors|length %}
-                <div class="alert alert-danger">{{ form_errors(imageForm.imageFile) }}</div>
-            {% endif %}
-        </div>
-        {{ form_errors(imageForm) }}
-        {{ form_end(imageForm) }}
+    <h2 class="row">My posts</h2>
+    <div class="row">
+        {% for post in userPosts %}
+            {{ include("MainBundle:Post:onePost.html.twig") }}
+        {% endfor %}
+    </div>
+    <div class="row text-center">
+        {{ include("MainBundle:Post:pagination.html.twig") }}
     </div>
 {% endblock %}
 

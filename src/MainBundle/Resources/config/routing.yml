@@ -32,6 +32,13 @@ main_user_profile:
     defaults:
         _controller: MainBundle:User:profile
 
+main_user_profile_page:
+    path: /user/profile/page/{page}
+    defaults:
+        _controller: MainBundle:User:profile
+    requirements:
+            page: '\d+'
+
 main_user_profile_id:
     path: /user/profile/{id}
     defaults:

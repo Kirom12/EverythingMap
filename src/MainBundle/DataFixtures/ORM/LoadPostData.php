@@ -21,6 +21,7 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
     {
         $admin = $this->getReference('admin');
         $user1 = $this->getReference('user1');
+        $user2 = $this->getReference('user2');
 
         $category = new Category();
         $category->setName("Cul");
@@ -94,6 +95,20 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
         $post->setLink("https://www.facebook.com/");
         $post->setCaption("Réseau social facebook");
         $manager->persist($post);
+
+        //USER2 posts
+        for ($i=0; $i < 20; $i++) {
+            $post = new Post();
+            $post->setType("link");
+            $post->setUser($user2);
+            $post->setCategory($category);
+            $post->setTitle("Facebook ".$i);
+            $post->setCreationDate(new \DateTime());
+            $post->setLink("https://www.facebook.com/");
+            $post->setCaption("Réseau social facebook");
+            $manager->persist($post);
+        }
+
 
         $manager->flush();
     }
