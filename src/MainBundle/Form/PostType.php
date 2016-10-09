@@ -62,7 +62,7 @@ class PostType extends AbstractType
                 ))
             ->add('link', TextType::class,
                 array(
-                    'label'=> 'Lien',
+                    'label'=> 'Link',
                     'required'=> false,
                     'label_attr'=>array(
                         'class'=>'col-md-2 control-label'

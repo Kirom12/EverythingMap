@@ -7,8 +7,6 @@ use MainBundle\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -16,6 +14,9 @@ class PostController extends Controller
 {
     public function addAction(Request $request)
     {
+        // TODO: refactor this shit
+        $upload = false;
+
         $this->get('doctrine');
         $post = new Post();
 
@@ -32,8 +33,8 @@ class PostController extends Controller
             switch ($type) {
                 case 'link';
                     //Set non needed values empty on other proprety to be sure
-                    $post->setContent('');
-                    $post->setImageFile('');
+                    $post->setContent(NULL);
+                    $post->setImageFile(NULL);
 
                     if (empty($post->getLink())) {
                         $error = new FormError("Link should not be blank");
@@ -43,21 +44,44 @@ class PostController extends Controller
                     break;
                 case 'picture':
                     //Non needed values
-                    $post->setContent('');
+                    $post->setContent(NULL);
 
                     $file = $post->getImageFile();
                     $url = $post->getLink();
-                    $imageName = uniqid().'.jpg';
+                    $imageName = uniqid();
 
-                    if (!is_null($file)) { //If url image, priority is on upload
-                        //dump($file);die;
-                        $file->move('library/posts', $imageName);
-                    } elseif(!empty($url)) {
-                        // TODO: upload image from url (service?)
-                        // Down img: http://stackoverflow.com/questions/6476212/save-image-from-url-with-curl-php
-                        $img = file_get_contents($url);
+                    if (!is_null($file)) { //If upload image (priority is on upload)
+                        $upload = true;
+                        $imageName .= '.'.$file->guessExtension();
+                    } elseif(!empty($url)) { // url image
+                        try {
+                            $file = $this->get('app.url_uploader')->getImageFromUrl($url, $imageName, 1024);
 
-                    } else {
+                            $post->setImageFile($file);
+
+                            //Check file is image and dimension
+                            $validator = $this->get('validator');
+                            $errors = $validator->validate($post);
+                            //Throw error if not good
+                            if (count($errors) > 0) {
+                                foreach ($errors as $error) {
+                                    $error = new FormError($error->getMessage());
+                                    $form->get('imageFile')->addError($error);
+                                }
+                                // Delete the temp file
+                                unlink('library/tmp/'.$imageName);
+                                throw new Exception();
+                            }
+
+                            $imageName .= '.'.$file->guessExtension();
+                            $upload = true;
+                        } catch (Exception $e) {
+                            if (!empty($e->getMessage())) {
+                                $error = new FormError($e->getMessage());
+                                $form->get('imageFile')->addError($error);
+                            }
+                        }
+                    } else { // Not necessary ? (asserts)
                         $error = new FormError("No image");
                         $form->get('imageFile')->addError($error);
                     }
@@ -65,10 +89,9 @@ class PostController extends Controller
                     $post->setImageUrl('library/posts/' . $imageName);
                     break;
                 case 'text':
-                    //Non needed values
-                    $post->setImageFile('');
-                    $post->setLink('');
-                    $post->setCaption('');
+                    $post->setImageFile(NULL);
+                    $post->setLink(NULL);
+                    $post->setCaption(NULL);
 
                     if (empty($post->getContent())) {
                         $error = new FormError("Content should not be blank");
@@ -76,9 +99,8 @@ class PostController extends Controller
                     }
                     break;
                 case 'video':
-                    //Non needed values
-                    $post->setContent('');
-                    $post->setImageFile('');
+                    $post->setContent(NULL);
+                    $post->setImageFile(NULL);
 
                     if (empty($post->getLink())) {
                         $error = new FormError("Link should not be blank");
@@ -117,6 +139,10 @@ class PostController extends Controller
             }
 
             if($form->isValid()){
+                if ($upload) {
+                    $file->move('library/posts', $imageName);
+                }
+
                 //Save post in DB
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($post);
@@ -133,5 +159,4 @@ class PostController extends Controller
         ));
 
     }
-
 }

@@ -4,13 +4,11 @@ namespace MainBundle\Controller;
 
 use MainBundle\Entity\User;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\UserCheckerInterface;
+use Symfony\Component\Form\FormError;
 use MainBundle\Form\EditProfileImageType;
 use MainBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserController extends Controller
 {
@@ -43,18 +41,52 @@ class UserController extends Controller
 
         $imageForm->handleRequest($request);
 
-        if($imageForm->isValid()){
-            //dump($user);die;
-            // http://symfony.com/doc/current/controller/upload_file.html
-            // $file stores the uploaded PDF file
-
+        if($imageForm->isSubmitted()) {
             $file = $user->getImageFile();
+            $url = $user->getImageUrl();
+            $user->setImageUrl(NULL);
+            $imageName = uniqid();
 
-            //dump($file);
-            //die;
-            //$url = $user->getImageUrl();
+            if (!is_null($file)) { //If upload image (priority is on upload)
+                $imageName .= '.' . $file->guessExtension();
+            } elseif (!empty($url)) { // url image
+                try {
+                    $file = $this->get('app.url_uploader')->getImageFromUrl($url, $imageName, 1024);
 
-            $imageName = uniqid().'.jpg';
+                    $user->setImageFile($file);
+
+                    //Check file is image and dimension
+                    $validator = $this->get('validator');
+                    $errors = $validator->validate($user);
+                    //Throw error if not good
+                    if (count($errors) > 0) {
+                        foreach ($errors as $error) {
+                            $error = new FormError($error->getMessage());
+                            $imageForm->get('imageFile')->addError($error);
+                        }
+
+                        // Delete the temp file
+                        unlink('library/tmp/' . $imageName);
+                        throw new Exception();
+                    }
+
+                    $imageName .= '.' . $file->guessExtension();
+                    $upload = true;
+                } catch (Exception $e) {
+                    if (!empty($e->getMessage())) {
+                        $error = new FormError($e->getMessage());
+                        $imageForm->get('imageFile')->addError($error);
+                    }
+                }
+            }  else { // Not necessary ? (asserts)
+                $error = new FormError("No image");
+                $imageForm->get('imageFile')->addError($error);
+            }
+        }
+
+        if($imageForm->isValid()){
+            // TODO: delete old image
+
             $file->move('library/profile_image/', $imageName);
             $user->setImageUrl('library/profile_image/'.$imageName);
 
