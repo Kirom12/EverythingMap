@@ -1,18 +1,26 @@
 {% extends ('::base.html.twig')  %}
 {% block body %}
 
-    <h2>Add Post</h2>
+    {% if not edition %}
+        <h2>Add a post</h2>
+    {% else %}
+        <h2>Modify a post</h2>
+    {% endif %}
 
 
     {{ form_start(form,{'attr':{'class':'form-horizontal', 'id':'form_post'}}) }}
 
-    <div class="form-group">
-        {{ form_label(form.type)}}
+    {% if not edition %}
+        <div class="form-group">
+                {{ form_label(form.type)}}
 
-        <div class="col-md-10">
-            {{ form_widget(form.type)}}
+            <div class="col-md-10">
+                {{ form_widget(form.type)}}
+            </div>
         </div>
-    </div>
+    {% else %}
+        {{ form_widget(form.type)}}
+    {% endif %}
 
     <div id="group_title" class="form-group hidden">
         {{ form_label(form.title)}}
@@ -83,6 +91,8 @@
             {#{{ form_widget(form.tags)}}#}
         {#</div>#}
     {#</div>#}
+
+    {{ form_rest(form) }}
 
     {{ form_end(form) }}
 

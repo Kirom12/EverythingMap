@@ -6,6 +6,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,25 +22,9 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            // Doc choice : http://symfony.com/doc/current/reference/forms/types/choice.html
-            ->add('type', ChoiceType::class, array(
-                'choices'  => array(
-                    '' => '',
-                    'Text' => 'text',
-                    'Picture' => 'picture',
-                    'Youtube Video' => 'video',
-                    'Link' => 'link'
-                ),
-                'label_attr'=>array(
-                    'class'=>'col-md-2 control-label'
-                ),
-                'attr'=>array(
-                    'class'=>'form-control',
-                )
-            ))
             ->add('title', TextType::class,
                 array(
-                    'label'=> 'Title',
+                    'label'=> 'Title* :',
                     'required'=> false,
                     'label_attr'=>array(
                         'class'=>'col-md-2 control-label'
@@ -57,12 +42,13 @@ class PostType extends AbstractType
                         'class'=>'col-md-2 control-label'
                     ),
                     'attr'=>array(
-                        'class'=>'form-control'
+                        'class'=>'form-control',
+                        'placeholder' => 'No description'
                     )
                 ))
             ->add('link', TextType::class,
                 array(
-                    'label'=> 'Link',
+                    'label'=> 'Link* :',
                     'required'=> false,
                     'label_attr'=>array(
                         'class'=>'col-md-2 control-label'
@@ -81,7 +67,7 @@ class PostType extends AbstractType
             ))
             ->add('content', TextareaType::class,
                 array(
-                    'label'=> 'Content',
+                    'label'=> 'Content* :',
                     'required'=> false,
                     'label_attr'=>array(
                         'class'=>'col-md-2 control-label'
@@ -92,7 +78,7 @@ class PostType extends AbstractType
                 ))
             ->add('category', EntityType::class,
                 array(
-                    'label'=> 'Category',
+                    'label'=> 'Category* :',
                     'required'=> false,
                     //'multiple' => true,
                     'label_attr'=>array(
@@ -121,7 +107,33 @@ class PostType extends AbstractType
                     'class' => 'btn btn-primary'
                 )
             ));
+
+        if (!$options['edition']) {
+            $builder
+                // Doc choice : http://symfony.com/doc/current/reference/forms/types/choice.html
+                ->add('type', ChoiceType::class, array(
+                    'choices'  => array(
+                        '' => '',
+                        'Text' => 'text',
+                        'Picture' => 'picture',
+                        'Youtube Video' => 'video',
+                        'Link' => 'link'
+                    ),
+                    'label_attr'=>array(
+                        'class'=>'col-md-2 control-label'
+                    ),
+                    'attr'=>array(
+                        'class'=>'form-control',
+                    )
+                ));
+        } else {
+            $builder
+                ->add('type', HiddenType::class, array(
+
+                ));
+        }
     }
+
     
     /**
      * @param OptionsResolver $resolver
@@ -129,7 +141,8 @@ class PostType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'MainBundle\Entity\Post'
+            'data_class' => 'MainBundle\Entity\Post',
+            'edition' => false
         ));
     }
 }

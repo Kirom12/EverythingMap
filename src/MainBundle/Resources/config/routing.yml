@@ -54,6 +54,13 @@ main_user_post_delete:
     requirements:
         id: '\d+'
 
+main_user_post_edit:
+    path: /user/post/edit/{id}
+    defaults:
+        _controller: MainBundle:Post:add
+    requirements:
+        id: '\d+'
+
 #Admin routes
 main_admin:
     path: /admin

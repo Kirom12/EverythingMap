@@ -11,7 +11,11 @@
                 <div class="description">
                     <strong>Description :</strong>
                     <p>
-                        {{ post.caption }}
+                        {% if post.caption %}
+                            {{ post.caption }}
+                        {% else %}
+                            <i>No description</i>
+                        {% endif %}
                     </p>
                 </div>
 
@@ -22,7 +26,11 @@
                 <div class="description">
                     <strong>Description :</strong>
                     <p>
-                        {{ post.caption }}
+                        {% if post.caption %}
+                            {{ post.caption }}
+                        {% else %}
+                            <i>No description</i>
+                        {% endif %}
                     </p>
                 </div>
             {% elseif post.type == "text" %}
@@ -35,19 +43,27 @@
                 <div class="description">
                     <strong>Description :</strong>
                     <p>
-                        {{ post.caption }}
+                        {% if post.caption %}
+                            {{ post.caption }}
+                        {% else %}
+                            <i>No description</i>
+                        {% endif %}
                     </p>
                 </div>
 
 
             {% else %}
 
+            {% endif %}
 
+            {% if post.modificationdate %}
+                <div class="pull-right"><i>(modified)</i></div>
             {% endif %}
         </div>
         <div class="panel-footer">
             {% if is_granted('ROLE_ADMIN') or (is_granted('IS_AUTHENTICATED_FULLY') and app.user.id is sameas(post.user.id)) %}
                 <div class="pull-right"><a href="{{ path('main_user_post_delete', {'id': post.id}) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
+                <div class="pull-right"><a href="{{ path('main_user_post_edit', {'id': post.id}) }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
             {% endif %}
             {% if post.user.id is not empty %}
                 By <a href="{{ path('main_user_profile', {'id': post.user.id}) }}"><strong>{{ post.user.pseudo }}</strong></a>

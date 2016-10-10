@@ -12,15 +12,32 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PostController extends Controller
 {
-    public function addAction(Request $request)
+    public function addAction($id = NULL, Request $request)
     {
         // TODO: refactor this shit
         $upload = false;
+        $edition = false;
+        $em = $this->getDoctrine()->getManager();
 
-        $this->get('doctrine');
-        $post = new Post();
+        if ($id) { // Edition of a post
+            $user = $this->getUser(); // Get the current user
+            $post = $em->getRepository("MainBundle:Post")->find($id);
 
-        $form = $this->createForm(PostType::class, $post);
+            $this->checkAuthPostUser($user, $post);
+
+            if ($post->getType() == 'video') {
+                $post->setLink("https://www.youtube.com/watch?v=".$post->getLink());
+            }
+
+            $originalType = $post->getType();
+            $edition = true;
+        } else { // New post
+            $this->get('doctrine'); // why ?
+            $post = new Post();
+        }
+
+        // Form options: http://stackoverflow.com/questions/25399290/avoid-symfony-forcing-form-fields-display
+        $form = $this->createForm(PostType::class, $post, array('edition' => $edition));
 
         $form->handleRequest($request);
 
@@ -29,6 +46,9 @@ class PostController extends Controller
             //$errors = $validator->validate($post);
 
             $type = $post->getType();
+
+            // Check type hidden has not be modified
+            if ($edition && $post->getType() !== $originalType) { throw new Exception('Type modified'); }
 
             switch ($type) {
                 case 'link';
@@ -131,31 +151,41 @@ class PostController extends Controller
                     // TODO: incorrect type message
             }
 
-            //Common to every posts
-            $post->setCreationDate(new \DateTime());
-            //Set user to post if user is authenticated, else: NULL
-            if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-                $post->setUser($this->getUser());
-            }
-
             if($form->isValid()){
+                //**Common to every posts
+                //Set user to post if user is authenticated, else: NULL
+                if (!$edition) {
+                    $post->setCreationDate(new \DateTime());
+                    if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                        $post->setUser($this->getUser());
+                    }
+                } else {
+                    $post->setModificationDate(new \DateTime());
+                }
+                //**
+
                 if ($upload) {
                     $file->move('library/posts', $imageName);
                 }
 
                 //Save post in DB
-                $em = $this->getDoctrine()->getManager();
                 $em->persist($post);
                 $em->flush();
 
-                $this->addFlash('success', 'Post Added');
-
-                return $this->redirectToRoute('main_homepage');
+                if (!$edition) {
+                    $this->addFlash('success', 'Post Added');
+                    return $this->redirectToRoute('main_homepage');
+                } else {
+                    $this->addFlash('success', 'Post modified');
+                    //TODO modify redirect for edition
+                    return $this->redirectToRoute('main_homepage');
+                }
             }
         }
 
         return $this->render('MainBundle:Post:add.html.twig', array(
-            'form'=>$form->createView(),
+            'edition' => $edition,
+            'form'=>$form->createView()
         ));
 
     }
@@ -167,8 +197,7 @@ class PostController extends Controller
 
         $post = $em->getRepository("MainBundle:Post")->find($id);
 
-        if (!$post) { throw new NotFoundHttpException('Page not found'); }
-        if ($post->getUser() !== $user && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) { throw new NotFoundHttpException('Page not found'); }
+        $this->checkAuthPostUser($user, $post);
 
         $em->remove($post);
         $em->flush();
@@ -176,5 +205,12 @@ class PostController extends Controller
         $this->addFlash('success', 'Post deleted');
 
         return $this->redirect($request->headers->get('referer'));
+    }
+
+    public function checkAuthPostUser($user, $post) {
+        // If The post doesn't exist
+        if (!$post) { throw new NotFoundHttpException('Page not found'); }
+        // If the user doesn't own the post or is not admin
+        if ($post->getUser() !== $user && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) { throw new NotFoundHttpException('Page not found'); }
     }
 }

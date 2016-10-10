@@ -81,6 +81,13 @@ class Post
     private $creationDate;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="modification_date", type="datetime", nullable=true)
+     */
+    private $modificationDate;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="caption", type="string", length=255,  nullable=true)
@@ -244,9 +251,6 @@ class Post
      */
     public function getCaption()
     {
-        if(empty($this->caption)) {
-            return "No description";
-        }
         return $this->caption;
     }
 
@@ -384,6 +388,22 @@ class Post
     public function setCategory($category)
     {
         $this->category = $category;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getModificationDate()
+    {
+        return $this->modificationDate;
+    }
+
+    /**
+     * @param \DateTime $modificationDate
+     */
+    public function setModificationDate($modificationDate)
+    {
+        $this->modificationDate = $modificationDate;
     }
     #endregion
 }
