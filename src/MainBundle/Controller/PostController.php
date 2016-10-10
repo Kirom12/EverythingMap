@@ -23,6 +23,8 @@ class PostController extends Controller
             $user = $this->getUser(); // Get the current user
             $post = $em->getRepository("MainBundle:Post")->find($id);
 
+            //dump($user);die;
+
             $this->checkAuthPostUser($user, $post);
 
             if ($post->getType() == 'video') {
@@ -31,13 +33,16 @@ class PostController extends Controller
 
             $originalType = $post->getType();
             $edition = true;
+            $form = $this->createForm(PostType::class, $post, array(
+                'method' => 'PUT',
+                'edition' => $edition
+            ));
         } else { // New post
             $this->get('doctrine'); // why ?
             $post = new Post();
+            // Form options: http://stackoverflow.com/questions/25399290/avoid-symfony-forcing-form-fields-display
+            $form = $this->createForm(PostType::class, $post, array('edition' => $edition));
         }
-
-        // Form options: http://stackoverflow.com/questions/25399290/avoid-symfony-forcing-form-fields-display
-        $form = $this->createForm(PostType::class, $post, array('edition' => $edition));
 
         $form->handleRequest($request);
 
@@ -154,12 +159,12 @@ class PostController extends Controller
             if($form->isValid()){
                 //**Common to every posts
                 //Set user to post if user is authenticated, else: NULL
-                if (!$edition) {
+                if (!$edition) { // New post
                     $post->setCreationDate(new \DateTime());
-                    if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    if (!$form->get('anonymous')->getData() && $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
                         $post->setUser($this->getUser());
                     }
-                } else {
+                } else { // Edition
                     $post->setModificationDate(new \DateTime());
                 }
                 //**

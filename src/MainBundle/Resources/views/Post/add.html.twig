@@ -72,7 +72,6 @@
         </div>
     </div>
 
-
     <div id="group_categories" class="form-group hidden">
         {{  form_label(form.category)}}
 
@@ -80,6 +79,14 @@
             {{ form_widget(form.category)}}
             {% if form.category.vars.errors|length %}
                 <div class="alert alert-danger">{{ form_errors(form.category) }}</div>
+            {% endif %}
+            {% if not edition and is_granted('IS_AUTHENTICATED_FULLY') %}
+                <div class="checkbox">
+                    <label>
+                        {{ form_widget(form.anonymous)}}Post as anonymous (you can't modify a anonymous post)
+                    </label>
+                </div>
+                {% do form.anonymous.setRendered %}
             {% endif %}
         </div>
     </div>
@@ -91,6 +98,9 @@
             {#{{ form_widget(form.tags)}}#}
         {#</div>#}
     {#</div>#}
+    {% if not edition %}
+        {% do form.anonymous.setRendered %}
+    {% endif %}
 
     {{ form_rest(form) }}
 

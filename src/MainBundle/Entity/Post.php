@@ -16,7 +16,7 @@ class Post
 {
     /**
      * @ORM\ManyToOne(targetEntity="MainBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true,onDelete="CASCADE")
      */
     private $user;
 
@@ -307,10 +307,6 @@ class Post
      */
     public function getUser()
     {
-        if (is_null($this->user)) {
-            $this->user = new User();
-            $this->user->setPseudo("Anonymous");
-        }
         return $this->user;
     }
 
