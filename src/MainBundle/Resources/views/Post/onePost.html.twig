@@ -1,4 +1,4 @@
-<div class="post col-md-4">
+<div class="post col-md-4" data-type="{{ post.type }}">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title post-title">{{ post.title }}</h3>
@@ -34,8 +34,9 @@
                     </p>
                 </div>
             {% elseif post.type == "text" %}
-                <p>{{  post.content }}</p>
-
+                <div class="post-content">
+                    <p>{{  post.content }}</p>
+                </div>
             {% elseif post.type == "picture" %}
                 <div class="post-picture">
                     <img src="{{ asset(post.imageUrl) }}" alt="Image not found">

@@ -80,17 +80,47 @@ h1 {
     z-index: 3;
 }
 
+#post_view header {
+    padding: 5px 15px;
+}
+
+#post_view_close {
+    cursor: pointer;
+}
+
 .post-view-content {
     position: relative;
     left: -50%;
-    min-width: 800px;
-    min-height: 500px;
-    padding: 20px;
+    width: 1000px;
+
+    padding: 0px 0px;
 
     background-color: #FFFFFF;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
+}
+
+#post_view #post_link {
+    width: 100%;
+
+    text-align: center;
+}
+#post_view #post_link img {
+    width: 100%;
+}
+
+#post_caption, #post_content {
+    padding: 5px 10px;
+}
+
+#post_video {
+    display: none;
+}
+
+#post_view footer {
+    padding: 5px 10px;
+    background-color: #d9edf7;
 }
 
 /*****/
