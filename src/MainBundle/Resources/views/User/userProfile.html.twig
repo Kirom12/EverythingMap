@@ -23,5 +23,10 @@
         <div class="row text-center">
             {{ include("MainBundle:Common:pagination.html.twig") }}
         </div>
+
+        {{ include("MainBundle:Post:view.html.twig") }}
 {% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/post-view.js') }}"></script>
+{% endblock %}
