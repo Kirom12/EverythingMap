@@ -49,7 +49,7 @@ class UserController extends Controller
             if (!$user) { throw new NotFoundHttpException('Page not found'); }
         }
 
-        $pg = $this->getDoctrine()->getRepository('MainBundle:Post')->getUserPosts($user->getId(), $page, $nbPostPage);
+        $pg = $this->getDoctrine()->getRepository('MainBundle:Post')->getPostsPage($user->getId(), $page, $nbPostPage);
 
         $userPosts = $pg->getQuery()->getResult();
 

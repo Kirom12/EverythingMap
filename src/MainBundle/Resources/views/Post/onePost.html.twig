@@ -1,14 +1,14 @@
 <div class="post col-md-4">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">{{ post.title }}</h3>
+            <h3 class="panel-title post-title">{{ post.title }}</h3>
         </div>
         <div class="panel-body">
             {% if post.type == "video" %}
-                <div class="embed-responsive embed-responsive-16by9">
+                <div class="embed-responsive embed-responsive-16by9 post-video">
                     <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ post.link }}" frameborder="0" allowfullscreen></iframe>
                 </div>
-                <div class="description">
+                <div class="post-caption">
                     <strong>Description :</strong>
                     <p>
                         {% if post.caption %}
@@ -23,7 +23,7 @@
                 <div class="post-link">
                     <a href="{{ asset(post.link) }}">{{ post.link }}</a>
                 </div>
-                <div class="description">
+                <div class="post-caption">
                     <strong>Description :</strong>
                     <p>
                         {% if post.caption %}
@@ -40,7 +40,7 @@
                 <div class="post-picture">
                     <img src="{{ asset(post.imageUrl) }}" alt="Image not found">
                 </div>
-                <div class="description">
+                <div class="post-caption">
                     <strong>Description :</strong>
                     <p>
                         {% if post.caption %}

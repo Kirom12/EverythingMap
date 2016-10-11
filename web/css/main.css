@@ -8,9 +8,13 @@
     font-family: arial;
 }
 
-body {
-    background-color : white;
+html {
+    min-height: 100%;
+    position: relative;
+}
 
+body {
+    background-color : #FFFFFF;
 }
 
 h1 {
@@ -21,6 +25,22 @@ h1 {
     margin-bottom:42px;
 }
 
+#filter {
+    display: none;
+    position: absolute;
+
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+
+    background-color: #000000;
+
+    opacity: 0.5;
+
+    z-index: 2;
+}
+
 /* @INDEX */
 .admin-message {
     color: red;
@@ -28,12 +48,16 @@ h1 {
     margin-right: 25px;
 }
 
+.post {
+    cursor: pointer;
+}
+
 .post img{
     width: 100%;
     height: auto;
 }
 
-.post .description p {
+.post .post-caption p {
     padding: 5px;
 }
 
@@ -45,6 +69,31 @@ h1 {
     text-align: center;
 }
 
+/* post view */
+
+#post_view {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 50%;
+
+    z-index: 3;
+}
+
+.post-view-content {
+    position: relative;
+    left: -50%;
+    min-width: 800px;
+    min-height: 500px;
+    padding: 20px;
+
+    background-color: #FFFFFF;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/*****/
 
 .login-form {
     width: 350px;
@@ -106,7 +155,7 @@ h1 {
 
 .log-btn {
     background: #0AC986;
-    dispaly: inline-block;
+    display: inline-block;
     width: 100%;
     font-size: 16px;
     height: 50px;

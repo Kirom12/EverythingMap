@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     </head>
     <body>
+        <div id="filter"></div>
         {{ include("MainBundle:Default:nav.html.twig") }}
         {% if is_granted('ROLE_ADMIN') %}
             {{ include("MainBundle:Default:adminNav.html.twig") }}
@@ -31,7 +32,6 @@
 
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('js/login-form.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
