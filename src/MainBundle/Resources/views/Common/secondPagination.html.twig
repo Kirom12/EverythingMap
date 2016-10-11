@@ -1,0 +1,41 @@
+{% if secondPagination.nbPages > 0 %}
+    <ul class="pagination">
+        {% if secondPagination.page > 1 %}
+            <li>
+                <a href="{{ path(secondPagination.nomRoute, secondPagination.paramsRoute|merge({'page2': 1})) }}">
+                    <<
+                </a>
+            </li>
+            <li>
+                <a href="{{ path(secondPagination.nomRoute,
+                secondPagination.paramsRoute|merge({'page2': secondPagination.page-1})) }}">
+                    <
+                </a>
+            </li>
+        {% endif %}
+
+        {# Affichage de toutes les pages entre p-4 et p+4 sauf si < 1 ou > nbPages #}
+        {% for p in range(max(secondPagination.page-4, 1), min(secondPagination.page+4, secondPagination.nbPages)) %}
+            <li {% if p == secondPagination.page %}class="active"{% endif %}>
+                <a href="{{ path(secondPagination.nomRoute, secondPagination.paramsRoute|merge({'page2': p})) }}">
+                    {{ p }}
+                </a>
+            </li>
+        {% endfor %}
+
+        {% if secondPagination.page < secondPagination.nbPages %}
+            <li>
+                <a href="{{ path(secondPagination.nomRoute,
+                secondPagination.paramsRoute|merge({'page2': secondPagination.page+1})) }}">
+                    >
+                </a>
+            </li>
+            <li>
+                <a href="{{ path(secondPagination.nomRoute,
+                secondPagination.paramsRoute|merge({'page2': secondPagination.nbPages})) }}">
+                    >>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}

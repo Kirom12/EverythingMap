@@ -234,6 +234,19 @@ class UserController extends Controller
         return $this->redirectToRoute('login');
     }
 
+    public function deleteAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository("MainBundle:User")->find($id);
+
+        $em->remove($user);
+        $em->flush();
+
+        $this->addFlash('success', 'User deleted');
+
+        return $this->redirect($request->headers->get('referer'));
+    }
+
     private function checkAuth($route)
     {
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {

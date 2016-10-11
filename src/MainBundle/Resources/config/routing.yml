@@ -66,3 +66,16 @@ main_admin:
     path: /admin
     defaults:
         _controller: MainBundle:Default:indexAdmin
+
+main_admin_page:
+    path: /admin/{page}-{page2}
+    defaults:
+        _controller: MainBundle:Default:indexAdmin
+    requirements:
+        page: '\d+'
+        page2: '\d+'
+
+main_admin_delete_user:
+    path: /admin/user/delete/{id}
+    defaults:
+        _controller: MainBundle:User:delete

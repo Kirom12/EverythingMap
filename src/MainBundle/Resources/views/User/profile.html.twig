@@ -2,6 +2,7 @@
 {% block body %}
 
     <h2 class="row">My Profile</h2>
+    <h3 class="row">Infos</h3>
     <div class="row">
         <div class="col-md-9">
             <p><strong>Username : </strong>{{ app.user.pseudo }}</p>
@@ -28,14 +29,14 @@
             {{ form_end(imageForm) }}
         </div>
     </div>
-    <h2 class="row">My posts</h2>
+    <h3 class="row">My posts</h3>
     <div class="row">
         {% for post in userPosts %}
             {{ include("MainBundle:Post:onePost.html.twig") }}
         {% endfor %}
     </div>
     <div class="row text-center">
-        {{ include("MainBundle:Post:pagination.html.twig") }}
+        {{ include("MainBundle:Common:pagination.html.twig") }}
     </div>
 {% endblock %}
 

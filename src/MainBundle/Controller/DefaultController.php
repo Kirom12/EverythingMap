@@ -27,9 +27,41 @@ class DefaultController extends Controller
         return $this->render('MainBundle:User:index.html.twig');
     }
 
-    public function indexAdminAction()
+    public function indexAdminAction($page = 1, $page2 = 1)
     {
-        return $this->render('MainBundle:Admin:index.html.twig');
+        $nbPostPage = 50;
+        $nbUserPage = 50;
+
+        $pg = $this->getDoctrine()->getRepository('MainBundle:Post')->getPostsPage(NULL, $page, $nbPostPage);
+        $secondPg = $this->getDoctrine()->getRepository('MainBundle:User')->getUsersPage(NULL, $page2, $nbUserPage);
+
+        $posts = $pg->getQuery()->getResult();
+        $users = $secondPg->getQuery()->getResult();
+
+        // C'est sale !
+        $pagination = array(
+            'page' => $page,
+            'nbPages' => ceil($pg->count() / $nbPostPage),
+            'nomRoute' => 'main_admin_page',
+            'paramsRoute' => array(
+                'page2' => $page2
+            )
+        );
+        $secondPagination = array(
+            'page' => $page2,
+            'nbPages' => ceil($secondPg->count() / $nbUserPage),
+            'nomRoute' => 'main_admin_page',
+            'paramsRoute' => array(
+                'page' => $page
+            )
+        );
+
+        return $this->render('MainBundle:Admin:index.html.twig', array(
+            'posts' => $posts,
+            'users' => $users,
+            'pagination' => $pagination,
+            'secondPagination' => $secondPagination
+        ));
     }
 
 }

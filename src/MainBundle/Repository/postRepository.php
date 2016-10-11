@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class postRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getUserPosts($userId, $page, $nbrPostPage = 10)
+    public function getPostsPage($userId = NULL, $page, $nbrPostPage = 10)
     {
         if ($page < 1) {
             throw new NotFoundHttpException('Page does not exist');
@@ -26,13 +26,23 @@ class postRepository extends \Doctrine\ORM\EntityRepository
         $first_result = ($page-1)*$nbrPostPage;
         $max_results = $nbrPostPage;
 
-        $qb = $this->createQueryBuilder('post');
-        $qb
-            ->select('post')
-            ->where('post.user = :userId')
-            ->setParameter('userId', $userId)
-            ->setFirstResult($first_result)
-            ->setMaxResults($max_results);
+        if ($userId) {
+            $qb = $this->createQueryBuilder('post');
+            $qb
+                ->select('post')
+                ->where('post.user = :userId')
+                ->setParameter('userId', $userId)
+                ->setFirstResult($first_result)
+                ->setMaxResults($max_results)
+                ->orderBy('post.id', 'DESC');
+        } else {
+            $qb = $this->createQueryBuilder('post');
+            $qb
+                ->select('post')
+                ->setFirstResult($first_result)
+                ->setMaxResults($max_results)
+                ->orderBy('post.id', 'DESC');
+        }
 
         $paginator = new Paginator($qb);
 
