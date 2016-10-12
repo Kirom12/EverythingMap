@@ -7,8 +7,13 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="{{ asset('css/bootstrap.flatly.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/vendor/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/flat-ui.css') }}">
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+        {% block head %}{% endblock %}
+
+
     </head>
     <body>
         {{ include("MainBundle:Default:nav.html.twig") }}
@@ -31,7 +36,7 @@
         <div id="filter"></div>
 
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/flat-ui.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

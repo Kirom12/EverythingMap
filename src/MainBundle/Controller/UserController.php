@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
 {
-    public function loginAction()
+    public function loginAction(Request $request)
     {
         // TODO: Read https://symfony.com/doc/current/components/security/authentication.html
 
@@ -27,9 +27,71 @@ class UserController extends Controller
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
+        //http://symfony.com/doc/current/doctrine/registration_form.html
+        $user = new User();
+
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+//            $validator = $this->get("validator");
+//            $errors = $validator->validate($user);
+
+            $id = uniqid();
+            $user = $user->setSalt($id);
+            $user->addRoles('ROLE_USER');
+            $encodedPassword = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+            $user->setPassword($encodedPassword);
+            $user->setMailCheck(uniqid().uniqid());
+
+            $user->setCreatedDate(new \DateTime());
+
+            //Database : http://symfony.com/doc/current/doctrine.html
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            // Send email: http://symfony.com/doc/current/email.html
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Inscription confirmation')
+                ->setFrom('everythingmap.dev@gmail.com')
+                ->setTo($user->getMail())
+                ->setBody(
+                    $this->renderView(
+                    // app/Resources/views/Emails/registration.html.twig
+                        'Emails/confirmation.html.twig',
+                        array(
+                            'mailCheck' => $user->getMailCheck(),
+                            'userId' => $user->getId()
+                        )
+                    ),
+                    'text/html'
+                )
+                /*
+                 * If you also want to include a plaintext version of the message
+                ->addPart(
+                    $this->renderView(
+                        'Emails/registration.txt.twig',
+                        array('name' => $name)
+                    ),
+                    'text/plain'
+                )
+                */
+            ;
+            $this->get('mailer')->send($message);
+
+            // Session management: https://symfony.com/doc/current/components/http_foundation/sessions.html
+            // Flash message: https://symfony.com/doc/current/controller.html#flash-messages
+            $this->addFlash('success', 'Confirm your account before log in.');
+
+            return $this->redirectToRoute('login');
+        }
+
+
         return $this->render('MainBundle:User:login.html.twig', array(
             'last_username' => $lastUsername,
             'error' => $error,
+            'form' => $form->createView()
         ));
     }
 
@@ -139,7 +201,7 @@ class UserController extends Controller
 
 
     }
-
+/*
     public function registerAction(Request $request)
     {
         $this->checkAuth("main_homepage");
@@ -193,7 +255,7 @@ class UserController extends Controller
                     ),
                     'text/plain'
                 )
-                */
+
             ;
             $this->get('mailer')->send($message);
 
@@ -208,7 +270,7 @@ class UserController extends Controller
             'form' => $form->createView()
         ));
     }
-
+*/
     public function checkRegistrationAction($check, $id)
     {
         $em = $this->getDoctrine()->getManager();

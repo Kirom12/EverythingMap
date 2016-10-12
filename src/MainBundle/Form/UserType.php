@@ -23,14 +23,8 @@ class UserType extends AbstractType
         $builder
             ->add('pseudo', TextType::class,
                 array(
-                    'label'=> 'Username *',
+                    'label'=> 'Username',
                     'required'=> false,
-                    'label_attr'=>array(
-                        'class'=>'col-lg-2 control-label'
-                    ),
-                    'attr'=>array(
-                        'class'=>'form-control'
-                    )
                 ))
             ->add('password', RepeatedType::class,
                 array(
@@ -42,64 +36,33 @@ class UserType extends AbstractType
                    )),
                     'required' => false,
                     'first_options'  => array(
-                        'label' => 'Password *',
+                        'label' => 'Password',
                         'error_bubbling' => true,
-                        'label_attr'=>array(
-                            'class'=>'col-lg-2 control-label'
-                            ),
-                        'attr'=>array(
-                            'class'=>'form-control'
-                            )
                         ),
                     'second_options' => array(
-                        'label' => 'Repeat Password *',
-                        'label_attr'=>array(
-                            'class'=>'col-lg-2 control-label'
-                            ),
-                        'attr'=>array(
-                            'class'=>'form-control'
-                            )
+                        'label' => 'Repeat Password',
                     ),
                 ))
             ->add('firstName', TextType::class,
                 array(
                     'label'=> 'First name',
                     'required'=> false,
-                    'label_attr'=>array(
-                        'class'=>'col-lg-2 control-label'
-                    ),
-                    'attr'=>array(
-                        'class'=>'form-control'
-                    )
-
                 ))
 
             ->add('lastName', TextType::class,
                 array(
                     'label'=> 'Last name',
                     'required'=> false,
-                    'label_attr'=>array(
-                        'class'=>'col-lg-2 control-label'
-                    ),
-                    'attr'=>array(
-                        'class'=>'form-control'
-                    )
-
                 ))
             ->add('mail', TextType::class, array(
-                'label'=> 'Mail *',
+                'label'=> 'Mail',
                 'required'=> false,
-                'label_attr'=>array(
-                    'class'=>'col-lg-2 control-label'
-                ),
-                'attr'=>array(
-                    'class'=>'form-control'
-                )
             ))
 
             ->add('submit', SubmitType::class, array(
+                'label'=>'Get Started',
                 'attr' => array(
-                    'class' => 'btn btn-primary'
+                    'class' => 'button button-block'
                 )
             ));
     }
