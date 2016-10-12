@@ -4,65 +4,64 @@
     <h2>Register</h2>
 
     {{ form_start(form, {'attr':{'class':'form-horizontal'}}) }}
-    {{ form_errors(form) }}
+        <div class="form-group">
+            {{  form_label(form.pseudo)}}
 
-    <div class="form-group">
-        {{  form_label(form.pseudo)}}
-
-        <div class="col-lg-10">
-            {{ form_widget(form.pseudo)}}
-            {% if form.pseudo.vars.errors|length %}
-                <div class="alert alert-danger">{{ form_errors(form.pseudo) }}</div>
-            {% endif %}
+            <div class="col-lg-10">
+                {{ form_widget(form.pseudo)}}
+                {% if form.pseudo.vars.errors|length %}
+                    <div class="alert alert-danger">{{ form_errors(form.pseudo) }}</div>
+                {% endif %}
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        {{ form_label(form.password.first)}}
+        <div class="form-group">
+            {{ form_label(form.password.first)}}
 
-        <div class="col-lg-10">
-            {{ form_widget(form.password.first)}}
-            {% if form.password.vars.errors|length %}
-                <div class="alert alert-danger">{{ form_errors(form.password) }}</div>
-            {% endif %}
+            <div class="col-lg-10">
+                {{ form_widget(form.password.first)}}
+                {% if form.password.vars.errors|length %}
+                    <div class="alert alert-danger">{{ form_errors(form.password) }}</div>
+                {% endif %}
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        {{ form_label(form.password.second)}}
+        <div class="form-group">
+            {{ form_label(form.password.second)}}
 
-        <div class="col-lg-10">
-            {{ form_widget(form.password.second)}}
+            <div class="col-lg-10">
+                {{ form_widget(form.password.second)}}
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        {{  form_label(form.lastName)}}
+        <div class="form-group">
+            {{  form_label(form.lastName)}}
 
-        <div class="col-lg-10">
-            {{ form_widget(form.lastName)}}
+            <div class="col-lg-10">
+                {{ form_widget(form.lastName)}}
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        {{  form_label(form.firstName)}}
+        <div class="form-group">
+            {{  form_label(form.firstName)}}
 
-        <div class="col-lg-10">
-            {{ form_widget(form.firstName)}}
+            <div class="col-lg-10">
+                {{ form_widget(form.firstName)}}
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        {{  form_label(form.mail)}}
+        <div class="form-group">
+            {{  form_label(form.mail)}}
 
-        <div class="col-lg-10">
-            {{ form_widget(form.mail)}}
-            {% if form.mail.vars.errors|length %}
-                <div class="alert alert-danger">{{ form_errors(form.mail) }}</div>
-            {% endif %}
+            <div class="col-lg-10">
+                {{ form_widget(form.mail)}}
+                {% if form.mail.vars.errors|length %}
+                    <div class="alert alert-danger">{{ form_errors(form.mail) }}</div>
+                {% endif %}
+            </div>
         </div>
-    </div>
 
+        {{ form_rest(form) }}
     {{ form_end(form) }}
 
 {% endblock %}

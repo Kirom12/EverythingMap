@@ -2,30 +2,68 @@
 {% block body %}
 
     <h2 class="row">My Profile</h2>
-    <h3 class="row">Infos</h3>
+    <h3 class="row">Infos <small><a href="#" id="toggle-form">edit</a></small></h3>
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-9" id="profile">
             <p><strong>Username : </strong>{{ app.user.pseudo }}</p>
             <p><strong>Email : </strong>{{ app.user.mail }}</p>
             <p><strong>First name : </strong>{{ app.user.firstname }}</p>
             <p><strong>Last name : </strong>{{ app.user.lastname }}</p>
             <p><strong>Creation date : </strong>{{ app.user.createdDate|date("m/d/Y") }}</p>
         </div>
+        <div class="col-md-9" id="profile_form">
+            {{ form_start(profileForm, {'attr':{'class':'form-horizontal'}}) }}
+                <div class="form-group">
+                    {{  form_label(profileForm.mail)}}
+
+                    <div class="col-md-5">
+                        {{ form_widget(profileForm.mail)}}
+                        {% if profileForm.mail.vars.errors|length %}
+                            <div class="alert alert-danger">{{ form_errors(profileForm.mail) }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{  form_label(profileForm.firstName)}}
+
+                    <div class="col-md-5">
+                        {{ form_widget(profileForm.firstName)}}
+                        {% if profileForm.firstName.vars.errors|length %}
+                            <div class="alert alert-danger">{{ form_errors(profileForm.firstName) }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{  form_label(profileForm.lastName)}}
+
+                    <div class="col-md-5">
+                        {{ form_widget(profileForm.lastName)}}
+                        {% if profileForm.lastName.vars.errors|length %}
+                            <div class="alert alert-danger">{{ form_errors(profileForm.lastName) }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {{ form_rest(profileForm) }}
+            {{ form_end(profileForm) }}
+        </div>
+
         <div class="col-md-3">
             <img src="{{ asset(app.user.imageurl) }}" alt="" class="img-thumbnail center-block">
             <h4>Modify image :</h4>
             {{ form_start(imageForm, {'attr':{'class':'form-horizontal'}}) }}
-            <div class="form-group">
-                {{ form_widget(imageForm.imageFile)}}
-            </div>
-            <p class="text-center"><strong>OR</strong></p>
-            <div class="form-group">
-                {{ form_widget(imageForm.imageUrl)}}
-                {% if imageForm.imageFile.vars.errors|length %}
-                    <div class="alert alert-danger">{{ form_errors(imageForm.imageFile) }}</div>
-                {% endif %}
-            </div>
-            {{ form_errors(imageForm) }}
+                <div class="form-group">
+                    {{ form_widget(imageForm.imageFile)}}
+                </div>
+                <p class="text-center"><strong>OR</strong></p>
+                <div class="form-group">
+                    {{ form_widget(imageForm.imageUrl)}}
+                    {% if imageForm.imageFile.vars.errors|length %}
+                        <div class="alert alert-danger">{{ form_errors(imageForm.imageFile) }}</div>
+                    {% endif %}
+                </div>
+                {{ form_errors(imageForm) }}
+                {{ form_rest(imageForm) }}
             {{ form_end(imageForm) }}
         </div>
     </div>
@@ -44,4 +82,5 @@
 
 {% block javascripts %}
     <script src="{{ asset('js/post-view.js') }}"></script>
+    <script src="{{ asset('js/profile-form.js') }}"></script>
 {% endblock %}

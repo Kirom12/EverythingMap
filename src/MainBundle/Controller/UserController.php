@@ -3,6 +3,7 @@
 namespace MainBundle\Controller;
 
 use MainBundle\Entity\User;
+use MainBundle\Form\EditProfileType;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormError;
 use MainBundle\Form\EditProfileImageType;
@@ -127,8 +128,10 @@ class UserController extends Controller
         // The user is the logged user
         if ($loggedUser) {
             $imageForm = $this->createForm(EditProfileImageType::class, $user, array('method' => 'PUT'));
+            $profileForm = $this->createForm(EditProfileType::class, $user, array('method' => 'PUT'));
 
             $imageForm->handleRequest($request);
+            $profileForm->handleRequest($request);
 
             if($imageForm->isSubmitted()) {
                 $file = $user->getImageFile();
@@ -186,10 +189,17 @@ class UserController extends Controller
                 $em->flush();
             }
 
+            if($profileForm->isValid()){
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+            }
+
             return $this->render('MainBundle:User:profile.html.twig', array(
                 'userPosts' => $userPosts,
                 'pagination' => $pagination,
-                'imageForm' => $imageForm->createView()
+                'imageForm' => $imageForm->createView(),
+                'profileForm' => $profileForm->createView()
             ));
         } else { // The user is not the logged user
             return $this->render('MainBundle:User:userProfile.html.twig', array(
